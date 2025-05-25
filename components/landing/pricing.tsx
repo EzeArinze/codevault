@@ -1,7 +1,7 @@
 import { Check } from "lucide-react";
 import React from "react";
 import { Button } from "../ui/button";
-import { pricing } from "@/utils/constants";
+import { pricing } from "@/utils/constants/constants";
 
 function Pricing() {
   return (

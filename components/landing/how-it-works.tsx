@@ -1,4 +1,4 @@
-import { how_it_works } from "@/utils/constants";
+import { how_it_works } from "@/utils/constants/constants";
 
 function HowItWorks() {
   return (

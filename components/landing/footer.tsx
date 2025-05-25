@@ -1,12 +1,11 @@
-import { footerLinks } from "@/utils/constants";
-import { Code } from "lucide-react";
-import Image from "next/image";
+// import { footerLinks } from "@/utils/constants/constants";
+import { Code, Github, Twitter } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
 function Footer() {
   return (
-    <footer className="w-full border-t py-12 md:py-16 lg:py-20">
+    <footer className="w-full border-t py-6 md:py-8 lg:py-10">
       <div className="container px-4 md:px-6">
         <div className="grid gap-8 lg:grid-cols-4">
           <div className="space-y-4">
@@ -22,12 +21,7 @@ function Footer() {
                 href="#"
                 className="text-muted-foreground hover:text-foreground"
               >
-                <Image
-                  src={"/public/social-svg/github.svg"}
-                  alt="footer-social-icons"
-                  width={24}
-                  height={24}
-                />
+                <Github className="w-4 h-4" />
                 <span className="sr-only">GitHub</span>
               </Link>
 
@@ -35,18 +29,12 @@ function Footer() {
                 href="#"
                 className="text-muted-foreground hover:text-foreground"
               >
-                <Image
-                  src={"/public/social-svg/twitter.svg"}
-                  alt="footer-social-icons"
-                  width={24}
-                  height={24}
-                />
-
+                <Twitter className="w-4 h-4 rounded-full" />
                 <span className="sr-only">Twitter</span>
               </Link>
             </div>
           </div>
-          <div className="space-y-4">
+          {/* <div className="space-y-4">
             {footerLinks.map((linkGroup) => {
               return (
                 <div key={linkGroup.title} className="space-y-2">
@@ -68,9 +56,9 @@ function Footer() {
                 </div>
               );
             })}
-          </div>
+          </div> */}
         </div>
-        <div className="mt-8 border-t pt-8 text-center text-sm text-muted-foreground">
+        <div className="mt-2 border-t pt-2 text-center text-sm text-muted-foreground">
           © {new Date().getFullYear()} CodeVault. All rights reserved.
         </div>
       </div>

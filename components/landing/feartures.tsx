@@ -1,4 +1,4 @@
-import { features } from "@/utils/constants";
+import { features } from "@/utils/constants/constants";
 
 import React from "react";
 

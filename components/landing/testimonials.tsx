@@ -1,4 +1,4 @@
-import { testimonials } from "@/utils/constants";
+import { testimonials } from "@/utils/constants/constants";
 import React from "react";
 
 function Testimonials() {
