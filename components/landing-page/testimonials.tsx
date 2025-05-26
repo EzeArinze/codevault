@@ -3,7 +3,10 @@ import React from "react";
 
 function Testimonials() {
   return (
-    <section className="w-full py-12 md:py-24 lg:py-32 bg-slate-50 dark:bg-slate-900">
+    <section
+      className="w-full py-12 md:py-24 lg:py-32 bg-slate-50 dark:bg-slate-900"
+      id="testimonials"
+    >
       <div className="container px-4 md:px-6">
         <div className="flex flex-col items-center justify-center space-y-4 text-center">
           <div className="space-y-2">

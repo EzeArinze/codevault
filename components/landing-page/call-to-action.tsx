@@ -5,7 +5,7 @@ import Link from "next/link";
 
 function CallToAction() {
   return (
-    <section className="w-full py-12 md:py-24 lg:py-32 bg-primary text-primary-foreground">
+    <section className="w-full py-12 md:py-24 lg:py-32 bg-secondary text-primary-foreground">
       <div className="container px-4 md:px-6">
         <div className="flex flex-col items-center justify-center space-y-4 text-center">
           <div className="space-y-2">
@@ -18,7 +18,7 @@ function CallToAction() {
             </p>
           </div>
           <div className="flex flex-col gap-2 min-[400px]:flex-row">
-            <Button size="lg" variant="secondary" asChild>
+            <Button size="lg" variant="default" asChild>
               <Link href="#">
                 Sign Up for Free
                 <ArrowRight className="ml-2 h-4 w-4" />
