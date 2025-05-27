@@ -46,23 +46,12 @@ export default function DashboardContent({
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       {snippets.map((snippet) => (
         <SnippetCard key={snippet.id} snippet={snippet} />
-        // <div key={snippet.id} className="p-4 border rounded-md shadow-sm">
-        //   {JSON.stringify(snippet, null, 2)}
-        // </div>
       ))}
     </div>
   );
 
   return (
     <>
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-2xl font-bold tracking-tight">Your Snippets</h2>
-        <Button className="md:hidden" onClick={onCreateSnippet}>
-          <PlusCircle className="h-4 w-4 mr-2" />
-          New
-        </Button>
-      </div>
-
       <Tabs defaultValue="all" className="w-full">
         <TabsList className="mb-4">
           <TabsTrigger value="all">All</TabsTrigger>

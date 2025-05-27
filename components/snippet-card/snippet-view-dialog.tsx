@@ -45,7 +45,7 @@ export default function SnippetViewDialog({
             {snippet.code}
           </pre>
         </ScrollArea>
-        <div className="flex justify-between items-center mt-4">
+        <div className="grid grid-cols-1 md:grid-cols-2  gap-1 justify-between items-center mt-4">
           <div className="flex items-center gap-2">
             <Button
               variant="outline"
