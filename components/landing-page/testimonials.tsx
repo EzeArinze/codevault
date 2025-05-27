@@ -1,4 +1,4 @@
-import { testimonials } from "@/utils/constants/constants";
+import { testimonials } from "@/utils/constants/landing-page-constants";
 import React from "react";
 
 function Testimonials() {

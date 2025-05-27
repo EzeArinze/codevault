@@ -1,4 +1,4 @@
-import { how_it_works } from "@/utils/constants/constants";
+import { how_it_works } from "@/utils/constants/landing-page-constants";
 
 function HowItWorks() {
   return (

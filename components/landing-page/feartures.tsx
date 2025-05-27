@@ -1,4 +1,4 @@
-import { features } from "@/utils/constants/constants";
+import { features } from "@/utils/constants/landing-page-constants";
 
 import React from "react";
 
