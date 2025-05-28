@@ -35,8 +35,7 @@ export default function CreateSnippetDialog({
   open,
   onOpenChange,
   onSnippetCreated,
-}: // onSnippetCreated,
-CreateSnippetDialogProps) {
+}: CreateSnippetDialogProps) {
   const [formDetails, setFormDetails] = useState({
     title: "",
     description: "",

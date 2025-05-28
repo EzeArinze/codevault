@@ -1,4 +1,4 @@
-import { BookOpen, Settings2, SquareTerminal } from "lucide-react";
+import { BookOpen, SquareTerminal } from "lucide-react";
 
 export const categoriesTab = [
   {
@@ -39,38 +39,7 @@ export const categoriesTab = [
         url: "#",
       },
       {
-        title: "Get Started",
-        url: "#",
-      },
-      {
         title: "Tutorials",
-        url: "#",
-      },
-      {
-        title: "Changelog",
-        url: "#",
-      },
-    ],
-  },
-  {
-    title: "Settings",
-    url: "#",
-    icon: Settings2,
-    items: [
-      {
-        title: "General",
-        url: "#",
-      },
-      {
-        title: "Team",
-        url: "#",
-      },
-      {
-        title: "Billing",
-        url: "#",
-      },
-      {
-        title: "Limits",
         url: "#",
       },
     ],

@@ -1,6 +1,8 @@
 "use client";
 
 import * as React from "react";
+import CreateSnippet from "./create-snippet";
+
 import {
   // AudioWaveform,
   GalleryVerticalEnd,
@@ -17,8 +19,6 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
-
-import CreateAndSearch from "./create-and-search";
 
 const teams = [
   {
@@ -37,7 +37,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       {/* Body/Content */}
       <SidebarContent>
-        <CreateAndSearch />
+        <CreateSnippet />
         <NavCategories />
         <NavTemplate />
       </SidebarContent>

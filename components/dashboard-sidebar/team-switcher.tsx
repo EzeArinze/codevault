@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ChevronsUpDown } from "lucide-react";
+import { ChevronsLeftRight } from "lucide-react";
 
 export function TeamSwitcher({
   teams,
@@ -24,7 +24,7 @@ export function TeamSwitcher({
         <span className="truncate font-medium">{teams[0].name}</span>
         <span className="truncate text-xs">{teams[0].plan}</span>
       </div>
-      <ChevronsUpDown className="ml-auto" />
+      <ChevronsLeftRight className="ml-auto" />
     </div>
   );
 }

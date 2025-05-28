@@ -1,11 +1,10 @@
 "use client";
 
-import { PlusCircle, Search } from "lucide-react";
+import { PlusCircle } from "lucide-react";
 import { Button } from "../ui/button";
-import { Input } from "../ui/input";
 import { useSidebar } from "../ui/sidebar";
 
-function CreateAndSearch() {
+function CreateSnippet() {
   const { state } = useSidebar();
 
   if (state === "collapsed") {
@@ -19,7 +18,7 @@ function CreateAndSearch() {
         New Snippet
       </Button>
 
-      <div className="relative w-full">
+      {/* <div className="relative w-full">
         <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
         <Input
           type="search"
@@ -28,9 +27,9 @@ function CreateAndSearch() {
           value={""}
           onChange={() => {}}
         />
-      </div>
+      </div> */}
     </div>
   );
 }
 
-export default CreateAndSearch;
+export default CreateSnippet;
