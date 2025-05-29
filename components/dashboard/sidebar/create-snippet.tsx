@@ -1,10 +1,11 @@
 "use client";
 
 import { PlusCircle } from "lucide-react";
-import { Button } from "../ui/button";
-import { useSidebar } from "../ui/sidebar";
-import CreateSnippetDialog from "../dashboard-components/create-snippet-dialog";
+import { Button } from "../../ui/button";
+import { useSidebar } from "../../ui/sidebar";
+
 import { useState } from "react";
+import CreateSnippetDialog from "../components/create-snippet-dialog";
 
 function CreateSnippet() {
   const { state } = useSidebar();

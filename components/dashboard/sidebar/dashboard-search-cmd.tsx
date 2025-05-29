@@ -7,7 +7,7 @@ import {
   CommandItem,
   CommandList,
   // CommandSeparator,
-} from "../ui/command";
+} from "../../ui/command";
 
 interface DashboardSearchCommandProps {
   open?: boolean;

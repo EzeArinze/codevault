@@ -1,11 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { ModeToggle } from "../toogle-theme";
+import { ModeToggle } from "../../toogle-theme";
 
-import { Separator } from "../ui/separator";
-import { SidebarTrigger } from "../ui/sidebar";
-import { Button, buttonVariants } from "../ui/button";
+import { Separator } from "../../ui/separator";
+import { SidebarTrigger } from "../../ui/sidebar";
+import { Button, buttonVariants } from "../../ui/button";
 import { Search, StarsIcon } from "lucide-react";
 import { useState } from "react";
 import { DashboardSearchCommand } from "./dashboard-search-cmd";

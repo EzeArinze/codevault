@@ -8,10 +8,10 @@ import {
   GalleryVerticalEnd,
 } from "lucide-react";
 
-import { NavCategories } from "@/components/dashboard-sidebar/nav-main";
-import { NavTemplate } from "@/components/dashboard-sidebar/nav-templates";
-import { NavUser } from "@/components/dashboard-sidebar/nav-user";
-import { TeamSwitcher } from "@/components/dashboard-sidebar/team-switcher";
+import { NavCategories } from "@/components/dashboard/sidebar/nav-main";
+import { NavTemplate } from "@/components/dashboard/sidebar/nav-templates";
+import { NavUser } from "@/components/dashboard/sidebar/nav-user";
+import { TeamSwitcher } from "@/components/dashboard/sidebar/team-switcher";
 import {
   Sidebar,
   SidebarContent,

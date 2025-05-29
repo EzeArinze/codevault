@@ -1,4 +1,4 @@
-import SnippetDashboard from "@/components/dashboard-components/snippets";
+import SnippetDashboard from "@/components/dashboard/components/snippets";
 
 export default function Page() {
   return (
