@@ -27,6 +27,10 @@ export const categoriesTab = [
         title: "Services",
         url: "#",
       },
+      {
+        title: "Api's",
+        url: "#",
+      },
     ],
   },
   {

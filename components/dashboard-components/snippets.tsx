@@ -11,6 +11,8 @@ import CreateSnippetDialog from "./create-snippet-dialog";
 export default function SnippetDashboard() {
   const [searchQuery] = useState("");
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [snippets, setSnippets] = useState<Snippet[]>(getMockSnippets);
   const [isLoading] = useState(false);
   const [error] = useState<string | null>(null);
@@ -58,9 +60,9 @@ export default function SnippetDashboard() {
         <CreateSnippetDialog
           open={isCreateDialogOpen}
           onOpenChange={setIsCreateDialogOpen}
-          onSnippetCreated={(newSnippet) => {
-            setSnippets((prev) => [...prev, newSnippet]);
-          }}
+          // onSnippetCreated={(newSnippet) => {
+          //   setSnippets((prev) => [...prev, newSnippet]);
+          // }}
         />
       </div>
     </section>

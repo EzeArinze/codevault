@@ -14,28 +14,22 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import type { Snippet } from "@/lib/api";
-
+// import type { Snippet } from "@/lib/api";
 import { Loader2 } from "lucide-react";
+import { categoryOptions, languageOptions } from "@/utils/constants/code";
+import SelectComponent from "../select-component";
 
 interface CreateSnippetDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onSnippetCreated: (newSnippet: Snippet) => void;
+  // onSnippetCreated: (newSnippet: Snippet) => void;
 }
 
 export default function CreateSnippetDialog({
   open,
   onOpenChange,
-  onSnippetCreated,
-}: CreateSnippetDialogProps) {
+}: // onSnippetCreated,
+CreateSnippetDialogProps) {
   const [formDetails, setFormDetails] = useState({
     title: "",
     description: "",
@@ -56,19 +50,11 @@ export default function CreateSnippetDialog({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onSnippetCreated({
+    console.log({
       ...formDetails,
       id: crypto.randomUUID(),
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
-    });
-    setFormDetails({
-      title: "",
-      description: "",
-      code: "",
-      language: "typescript",
-      category: "utils",
-      installCommand: "",
     });
   };
 
@@ -105,30 +91,20 @@ export default function CreateSnippetDialog({
                   required
                 />
               </div>
-              <div className="grid gap-2">
-                <Label htmlFor="language">Language</Label>
-                <Select
-                  value={formDetails.language}
-                  onValueChange={(value) =>
-                    setFormDetails((prev) => ({
-                      ...prev,
-                      language: value ?? "typescript",
-                    }))
-                  }
-                >
-                  <SelectTrigger id="language">
-                    <SelectValue placeholder="Select language" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="typescript">TypeScript</SelectItem>
-                    <SelectItem value="javascript">JavaScript</SelectItem>
-                    <SelectItem value="jsx">JSX</SelectItem>
-                    <SelectItem value="tsx">TSX</SelectItem>
-                    <SelectItem value="css">CSS</SelectItem>
-                    <SelectItem value="html">HTML</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+              {/*  */}
+              <SelectComponent
+                id="language"
+                placeholder="Select language"
+                label="Language"
+                values={languageOptions}
+                value={formDetails.language}
+                onValueChange={(value) =>
+                  setFormDetails((prev) => ({
+                    ...prev,
+                    language: value ?? "typescript",
+                  }))
+                }
+              />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="description">Description</Label>
@@ -141,30 +117,20 @@ export default function CreateSnippetDialog({
                 required
               />
             </div>
-            <div className="grid gap-2">
-              <Label htmlFor="category">Category</Label>
-              <Select
-                value={formDetails.category}
-                onValueChange={(value) =>
-                  setFormDetails((prev) => ({
-                    ...prev,
-                    category: value,
-                  }))
-                }
-              >
-                <SelectTrigger id="category">
-                  <SelectValue placeholder="Select category" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="hooks">Hooks</SelectItem>
-                  <SelectItem value="utils">Utils</SelectItem>
-                  <SelectItem value="components">Components</SelectItem>
-                  <SelectItem value="services">Services</SelectItem>
-                  <SelectItem value="config">Config</SelectItem>
-                  <SelectItem value="styles">Styles</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+            {/*  */}
+            <SelectComponent
+              id="category"
+              placeholder="Select category"
+              label="Category"
+              values={categoryOptions}
+              value={formDetails.category}
+              onValueChange={(value) =>
+                setFormDetails((prev) => ({
+                  ...prev,
+                  category: value ?? "typescript",
+                }))
+              }
+            />
             <div className="grid gap-2">
               <Label htmlFor="code">Code</Label>
               <Textarea

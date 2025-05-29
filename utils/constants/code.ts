@@ -10,3 +10,23 @@ export function useToggle(initialValue = false) {
   return { value, toggle, setTrue, setFalse };
 }
 `;
+
+export const languageOptions = [
+  { label: "JavaScript", value: "javascript" },
+  { label: "TypeScript", value: "typescript" },
+  { label: "HTML", value: "html" },
+  { label: "CSS", value: "css" },
+  { label: "JSX", value: "jsx" },
+  { label: "TSX", value: "TSX" },
+];
+
+export const categoryOptions = [
+  { label: "Hooks", value: "hooks" },
+  { label: "Utils", value: "utils" },
+  { label: "Components", value: "components" },
+  { label: "Service", value: "service" },
+  { label: "Api's", value: "api" },
+  { label: "Styles", value: "style" },
+  { label: "Config", value: "config" },
+  { label: "Other", value: "other" },
+];

@@ -21,7 +21,7 @@ function HeroSection() {
             </div>
             <div className="flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
               <Button size="lg" asChild>
-                <Link href="/signup">
+                <Link href="/dashboard">
                   Get Started
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
@@ -39,7 +39,7 @@ function HeroSection() {
                   <div className="h-2 w-2 sm:h-3 sm:w-3 rounded-full bg-yellow-500" />
                   <div className="h-2 w-2 sm:h-3 sm:w-3 rounded-full bg-green-500" />
                   <div className="ml-2 text-xs sm:text-sm text-slate-400 truncate">
-                    useLocalStorage.ts - CodeVault
+                    useToggle.ts - CodeVault
                   </div>
                 </div>
                 <div className="p-3 sm:p-4 text-slate-50 font-mono overflow-x-auto">

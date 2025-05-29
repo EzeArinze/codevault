@@ -34,7 +34,7 @@ function Header() {
         </nav>
         <div className="flex items-center gap-4">
           <Link
-            href="/#"
+            href="/sign-in"
             className="text-sm font-medium hover:text-primary hidden md:inline-flex"
           >
             Log in
