@@ -17,7 +17,7 @@ import { Textarea } from "@/components/ui/textarea";
 // import type { Snippet } from "@/lib/api";
 import { Loader2 } from "lucide-react";
 import { categoryOptions, languageOptions } from "@/utils/constants/code";
-import SelectComponent from "../select-component";
+import SelectComponent from "@/components/select-component";
 
 interface CreateSnippetDialogProps {
   open: boolean;
