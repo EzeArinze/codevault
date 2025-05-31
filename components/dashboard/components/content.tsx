@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 // import SnippetCard from "@/components/snippet-card"
 import type { Snippet } from "@/lib/api";
-import SnippetCard from "@/components/snippet-card/snippet-card";
+import SnippetCard from "@/components/dashboard/snippet-card/snippet-card";
 
 interface DashboardContentProps {
   snippets: Snippet[];
