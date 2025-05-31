@@ -41,7 +41,7 @@ function DashboardHeader() {
         </div>
         <div className="flex items-center gap-2">
           <ModeToggle />
-          <Link href={"#"} className={buttonVariants()}>
+          <Link href={"/dashboard/generate"} className={buttonVariants()}>
             <StarsIcon className="w-3 h-3" />
             Ai<span className="hidden sm:block">Generate</span>
           </Link>
