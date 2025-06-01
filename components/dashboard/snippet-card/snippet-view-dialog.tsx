@@ -13,7 +13,10 @@ import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 import type { Snippet } from "@/lib/api";
-import { copyToClipboard, downloadSnippet } from "@/utils/snippet-actions";
+import {
+  copyToClipboard,
+  downloadSnippet,
+} from "@/utils/actions/snippet-actions";
 
 interface SnippetViewDialogProps {
   snippet: Snippet;

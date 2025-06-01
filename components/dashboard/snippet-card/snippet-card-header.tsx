@@ -19,7 +19,10 @@ import {
 
 // import { toggleFavoriteSnippet } from "@/app/actions";
 import type { Snippet } from "@/lib/api";
-import { copyToClipboard, downloadSnippet } from "@/utils/snippet-actions";
+import {
+  copyToClipboard,
+  downloadSnippet,
+} from "@/utils/actions/snippet-actions";
 
 interface SnippetCardHeaderProps {
   title: string;

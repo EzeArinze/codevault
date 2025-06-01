@@ -8,7 +8,10 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Copy, Download, Terminal } from "lucide-react";
-import { copyToClipboard, downloadSnippet } from "@/utils/snippet-actions";
+import {
+  copyToClipboard,
+  downloadSnippet,
+} from "@/utils/actions/snippet-actions";
 import type { Snippet } from "@/lib/api";
 
 interface SnippetCardActionsProps {
