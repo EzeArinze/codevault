@@ -1,19 +1,15 @@
-import GenerateInput from "@/components/generate-code/generate-input";
 import React from "react";
+import GenerateInput from "@/components/generate-code/generate-input";
+// import { getServerSession } from "@/utils/actions/get-server-session";
+// import { redirect } from "next/navigation";
 
-// function AiGeneratePage() {
-//   return (
-//     <div className="flex min-h-[90vh] w-full gap-6 p-4">
-//       <div className="flex-1 flex flex-col bg-muted/50 mx-auto h-full w-full max-w-3xl rounded-xl justify-end p-4">
-//         <GenerateInput />
-//       </div>
-//     </div>
-//   );
-// }
+async function AiGeneratePage() {
+  // const { session } = await getServerSession();
 
-// export default AiGeneratePage;
+  // if (!session) {
+  //   redirect("/sign-in");
+  // }
 
-function AiGeneratePage() {
   return (
     <div className="flex min-h-[92vh] w-full gap-6 p-4">
       {/* Sidebar */}

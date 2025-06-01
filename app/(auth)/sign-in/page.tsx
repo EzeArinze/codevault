@@ -1,13 +1,10 @@
 import { LoginForm } from "@/components/auth/ui/login-view";
-import { auth } from "@/lib/auth";
+import { getServerSession } from "@/utils/actions/get-server-session";
 import { ChevronsLeftRight } from "lucide-react";
-import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 export default async function LoginPage() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const session = await getServerSession();
 
   if (!!session) {
     redirect("/dashboard");
