@@ -88,18 +88,18 @@ export const pricing = [
     popular: true,
     start_with: "Upgrade Now",
   },
-  {
-    plan: "Team",
-    price: "$29/month",
-    price_description: "",
-    features: [
-      "Everything in Pro",
-      "Team collaboration features",
-      "Priority support",
-    ],
-    popular: false,
-    start_with: "Contact Sales",
-  },
+  // {
+  //   plan: "Team",
+  //   price: "$29/month",
+  //   price_description: "",
+  //   features: [
+  //     "Everything in Pro",
+  //     "Team collaboration features",
+  //     "Priority support",
+  //   ],
+  //   popular: false,
+  //   start_with: "Contact Sales",
+  // },
 ];
 
 export const testimonials = [

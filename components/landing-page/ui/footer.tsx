@@ -6,7 +6,7 @@ import React from "react";
 function Footer() {
   return (
     <footer className="w-full border-t py-6 md:py-8 lg:py-10">
-      <div className="container px-4 md:px-6">
+      <div className="container mx-auto px-4 md:px-6">
         <div className="grid gap-8 lg:grid-cols-4">
           <div className="space-y-4">
             <div className="flex items-center gap-2">
@@ -58,7 +58,7 @@ function Footer() {
             })}
           </div> */}
         </div>
-        <div className="mt-2 border-t pt-2 text-center text-sm text-muted-foreground">
+        <div className=" mt-2 border-t pt-2 text-center text-sm text-muted-foreground">
           © {new Date().getFullYear()} CodeVault. All rights reserved.
         </div>
       </div>
