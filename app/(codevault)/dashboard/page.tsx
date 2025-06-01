@@ -1,6 +1,19 @@
 import SnippetDashboard from "@/components/dashboard/components/snippets";
+// import { auth } from "@/lib/auth";
+// import { headers } from "next/headers";
+// import { redirect } from "next/navigation";
 
 export default async function Page() {
+  // i will do redirect if the user is not authenticated later here
+  // with better auth server session management
+  // const session = await auth.api.getSession({
+  //   headers: await headers(),
+  // });
+
+  // if (!session) {
+  //   redirect("/sign-in");
+  // }
+
   return (
     // <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
     //   <div className="grid auto-rows-min gap-4 md:grid-cols-3">
