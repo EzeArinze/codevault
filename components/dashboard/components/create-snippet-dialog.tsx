@@ -19,6 +19,8 @@ import { Loader2 } from "lucide-react";
 import { categoryOptions, languageOptions } from "@/utils/constants/code";
 import SelectComponent from "@/components/select-component";
 import { generateInstallCommand } from "@/utils/helpers/generate-install-command";
+import { createSnippetWithCategory } from "@/actions/create-snippet";
+import { toast } from "sonner";
 
 interface CreateSnippetDialogProps {
   open: boolean;
@@ -39,8 +41,7 @@ CreateSnippetDialogProps) {
     category: "utils",
     installCommand: "",
   });
-
-  const [isSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const onChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -51,12 +52,28 @@ CreateSnippetDialogProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log({
-      ...formDetails,
-      id: crypto.randomUUID(),
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    });
+    setIsSubmitting(true);
+    try {
+      await createSnippetWithCategory({
+        ...formDetails,
+        command: formDetails.installCommand,
+        categoryName: formDetails.category,
+      });
+    } catch (error) {
+      const newError =
+        error instanceof Error
+          ? error.message
+          : "Creating snippet not successfull";
+
+      toast.error("Error", {
+        description: newError,
+      });
+      setIsSubmitting(false);
+      throw new Error("faild to create snippet");
+    } finally {
+      setIsSubmitting(false);
+      onOpenChange?.(false);
+    }
   };
 
   return (
@@ -128,11 +145,10 @@ CreateSnippetDialogProps) {
                 id="code"
                 name="code"
                 placeholder="Paste your code here..."
-                className="font-mono h-40"
+                className="font-mono h-32"
                 value={formDetails.code}
                 onChange={onChange}
                 required
-                // rows={2}
               />
             </div>
             <div className="grid gap-2">

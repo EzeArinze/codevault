@@ -1,7 +1,7 @@
 "use client";
 
 import {
-  BadgeCheck,
+  // BadgeCheck,
   Bell,
   ChevronsUpDown,
   CreditCard,
@@ -26,17 +26,16 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { useSession } from "@/hooks/use-session";
-
-const dummyUser = {
-  name: "shadcn",
-  email: "m@example.com",
-  avatar: "/capman.webp",
-};
+import { Skeleton } from "@/components/ui/skeleton";
 
 export function NavUser() {
   const { isMobile } = useSidebar();
 
-  const { user, initials, signOut } = useSession();
+  const { user, initials, signOut, isPending } = useSession();
+
+  if (isPending) {
+    return <Skeleton className="h-12 w-[250px]" />;
+  }
 
   return (
     <SidebarMenu>
@@ -54,12 +53,8 @@ export function NavUser() {
                 </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">
-                  {user?.name || dummyUser.name}
-                </span>
-                <span className="truncate text-xs">
-                  {user?.email || dummyUser.email}
-                </span>
+                <span className="truncate font-medium">{user?.name}</span>
+                <span className="truncate text-xs">{user?.email}</span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
@@ -73,19 +68,12 @@ export function NavUser() {
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage
-                    src={user?.image ?? ""}
-                    alt={user?.name || dummyUser.name}
-                  />
+                  <AvatarImage src={user?.image ?? ""} alt={user?.name} />
                   <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">
-                    {user?.name || dummyUser.name}
-                  </span>
-                  <span className="truncate text-xs">
-                    {user?.email || dummyUser.email}
-                  </span>
+                  <span className="truncate font-medium">{user?.name}</span>
+                  <span className="truncate text-xs">{user?.email}</span>
                 </div>
               </div>
             </DropdownMenuLabel>
@@ -98,10 +86,6 @@ export function NavUser() {
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <BadgeCheck />
-                Account
-              </DropdownMenuItem>
               <DropdownMenuItem>
                 <CreditCard />
                 Billing

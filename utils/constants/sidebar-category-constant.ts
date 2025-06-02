@@ -31,6 +31,14 @@ export const categoriesTab = [
         title: "Api's",
         url: "#",
       },
+      {
+        title: "Config",
+        url: "#",
+      },
+      {
+        title: "Other",
+        url: "#",
+      },
     ],
   },
   {

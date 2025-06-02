@@ -1,12 +1,12 @@
 import {
   boolean,
-  // integer,
   pgTable,
   text,
   timestamp,
-  // varchar,
+  varchar,
 } from "drizzle-orm/pg-core";
-// import { nanoid } from "nanoid";
+import { relations } from "drizzle-orm";
+import { nanoid } from "nanoid";
 
 // Auth Tables
 export const user = pgTable("user", {
@@ -71,28 +71,53 @@ export const verification = pgTable("verification", {
 
 // Snippets and Categories Tables
 
-// export const categoriesTable = pgTable("categories", {
-//   id: text()
-//     .primaryKey()
-//     .$defaultFn(() => nanoid()),
-//   name: varchar({ length: 255 }).notNull(),
-// });
+export const categoriesTable = pgTable("categories", {
+  id: text()
+    .primaryKey()
+    .$defaultFn(() => nanoid()),
+  name: varchar({ length: 255 }).notNull(),
+});
 
-// export const snippetsTable = pgTable("snippets", {
-//   id: text()
-//     .primaryKey()
-//     .$defaultFn(() => nanoid()),
-//   title: varchar({ length: 255 }).notNull(),
-//   language: varchar({ length: 255 }).notNull(),
-//   description: varchar({ length: 1000 }).notNull(),
-//   category_id: integer().references(() => categoriesTable.id, {
-//     onDelete: "cascade",
-//   }),
-//   code: varchar({ length: 10000 }).notNull(),
-//   command: text().notNull(),
-//   user_id: text()
-//     .notNull()
-//     .references(() => user.id, {
-//       onDelete: "cascade",
-//     }),
-// });
+export const snippetsTable = pgTable("snippets", {
+  id: text()
+    .primaryKey()
+    .$defaultFn(() => nanoid()),
+  title: varchar({ length: 255 }).notNull(),
+  language: varchar({ length: 255 }).notNull(),
+  description: varchar({ length: 1000 }).notNull(),
+  category_id: text().references(() => categoriesTable.id, {
+    onDelete: "cascade",
+  }),
+  code: varchar({ length: 10000 }).notNull(),
+  command: text().notNull(),
+  user_id: text()
+    .notNull()
+    .references(() => user.id, {
+      onDelete: "cascade",
+    }),
+  favorite: boolean()
+    .$defaultFn(() => false)
+    .notNull(),
+});
+
+// User has many snippets
+export const userRelations = relations(user, ({ many }) => ({
+  snippets: many(snippetsTable),
+}));
+
+// Category has many snippets
+export const categoryRelations = relations(categoriesTable, ({ many }) => ({
+  snippets: many(snippetsTable),
+}));
+
+// Snippet belongs to one user and one category
+export const snippetRelations = relations(snippetsTable, ({ one }) => ({
+  user: one(user, {
+    fields: [snippetsTable.user_id],
+    references: [user.id],
+  }),
+  category: one(categoriesTable, {
+    fields: [snippetsTable.category_id],
+    references: [categoriesTable.id],
+  }),
+}));
