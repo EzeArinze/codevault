@@ -18,6 +18,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Loader2 } from "lucide-react";
 import { categoryOptions, languageOptions } from "@/utils/constants/code";
 import SelectComponent from "@/components/select-component";
+import { generateInstallCommand } from "@/utils/helpers/generate-install-command";
 
 interface CreateSnippetDialogProps {
   open: boolean;
@@ -56,16 +57,6 @@ CreateSnippetDialogProps) {
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     });
-  };
-
-  const generateInstallCommand = () => {
-    if (!formDetails.title || !formDetails.category) return;
-
-    const fileName = formDetails.title.toLowerCase().replace(/\s+/g, "-");
-    const extension = formDetails.language === "typescript" ? "ts" : "js";
-    const command = `npx create-file ${formDetails.category}/${fileName}.${extension}`;
-
-    setFormDetails((prev) => ({ ...prev, installCommand: command }));
   };
 
   return (
@@ -141,6 +132,7 @@ CreateSnippetDialogProps) {
                 value={formDetails.code}
                 onChange={onChange}
                 required
+                // rows={2}
               />
             </div>
             <div className="grid gap-2">
@@ -150,7 +142,9 @@ CreateSnippetDialogProps) {
                   type="button"
                   variant="ghost"
                   size="sm"
-                  onClick={generateInstallCommand}
+                  onClick={() =>
+                    generateInstallCommand(formDetails, setFormDetails)
+                  }
                 >
                   Generate
                 </Button>
@@ -158,7 +152,7 @@ CreateSnippetDialogProps) {
               <Input
                 id="installCommand"
                 name="installCommand"
-                placeholder="npx create-file utils/my-util.ts"
+                placeholder="npx add utils/my-util.ts"
                 value={formDetails.installCommand}
                 onChange={onChange}
               />

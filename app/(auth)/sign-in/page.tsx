@@ -1,5 +1,5 @@
 import { LoginForm } from "@/components/auth/ui/login-view";
-import { getServerSession } from "@/utils/actions/get-server-session";
+import { getServerSession } from "@/actions/get-server-session";
 import { ChevronsLeftRight } from "lucide-react";
 import { redirect } from "next/navigation";
 

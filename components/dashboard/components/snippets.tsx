@@ -4,7 +4,10 @@ import { useState } from "react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Loader2 } from "lucide-react";
 
-import { getMockSnippets, type Snippet } from "@/lib/api";
+import {
+  // getMockSnippets,
+  type Snippet,
+} from "@/lib/api";
 import DashboardContent from "./content";
 import CreateSnippetDialog from "./create-snippet-dialog";
 
@@ -13,7 +16,7 @@ export default function SnippetDashboard() {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [snippets, setSnippets] = useState<Snippet[]>(getMockSnippets);
+  const [snippets, setSnippets] = useState<Snippet[]>([]);
   const [isLoading] = useState(false);
   const [error] = useState<string | null>(null);
   const [activeCategory] = useState("all");

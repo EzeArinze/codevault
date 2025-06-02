@@ -16,7 +16,7 @@ import type { Snippet } from "@/lib/api";
 import {
   copyToClipboard,
   downloadSnippet,
-} from "@/utils/actions/snippet-actions";
+} from "@/utils/helpers/download-and-copy";
 
 interface SnippetViewDialogProps {
   snippet: Snippet;

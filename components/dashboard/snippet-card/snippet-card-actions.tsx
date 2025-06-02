@@ -11,7 +11,7 @@ import { Copy, Download, Terminal } from "lucide-react";
 import {
   copyToClipboard,
   downloadSnippet,
-} from "@/utils/actions/snippet-actions";
+} from "@/utils/helpers/download-and-copy";
 import type { Snippet } from "@/lib/api";
 
 interface SnippetCardActionsProps {

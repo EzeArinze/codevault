@@ -8,6 +8,7 @@ import {
   CommandList,
   // CommandSeparator,
 } from "../../ui/command";
+// import { useUrlState } from "@/hooks/use-url-state";
 
 interface DashboardSearchCommandProps {
   open?: boolean;
@@ -21,6 +22,7 @@ export const DashboardSearchCommand = ({
   open,
   setOpen,
 }: DashboardSearchCommandProps) => {
+  //
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
