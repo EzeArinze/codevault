@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "../../globals.css";
 import { ThemeProvider } from "@/providers/theme-provider";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { Toaster } from "sonner";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/dashboard/sidebar/app-sidebar";
@@ -18,13 +19,15 @@ export default function Layout({
 }>) {
   return (
     <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-      <SidebarProvider>
-        <AppSidebar />
-        <SidebarInset>
-          <DashboardHeader />
-          {children}
-        </SidebarInset>
-      </SidebarProvider>
+      <NuqsAdapter>
+        <SidebarProvider>
+          <AppSidebar />
+          <SidebarInset>
+            <DashboardHeader />
+            {children}
+          </SidebarInset>
+        </SidebarProvider>
+      </NuqsAdapter>
       <Toaster />
     </ThemeProvider>
   );

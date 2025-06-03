@@ -1,3 +1,5 @@
+"use server";
+
 import { db } from "@/db";
 import { getServerSession } from "./get-server-session";
 import { desc, and, eq } from "drizzle-orm";

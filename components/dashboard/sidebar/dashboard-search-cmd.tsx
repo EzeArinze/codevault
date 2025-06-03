@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { Dispatch, SetStateAction } from "react";
 import {
   CommandDialog,
   CommandEmpty,
@@ -8,36 +8,31 @@ import {
   CommandList,
   // CommandSeparator,
 } from "../../ui/command";
-// import { useUrlState } from "@/hooks/use-url-state";
+import { useQueryState } from "nuqs";
+import { useHotkeyToggle } from "@/hooks/use-hot-key";
 
 interface DashboardSearchCommandProps {
   open?: boolean;
   setOpen?: Dispatch<SetStateAction<boolean>>;
-  // onSearch?: (query: string) => void;
-  // onSelect?: (item: string) => void;
-  // onClose?: () => void;
 }
 
 export const DashboardSearchCommand = ({
   open,
   setOpen,
 }: DashboardSearchCommandProps) => {
-  //
-  useEffect(() => {
-    const down = (e: KeyboardEvent) => {
-      if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
-        e.preventDefault();
-        setOpen?.((open) => !open);
-      }
-    };
-    document.addEventListener("keydown", down);
-    return () => document.removeEventListener("keydown", down);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const [searchQuery, setSearchQuery] = useQueryState("q", {
+    defaultValue: "",
+  });
+
+  useHotkeyToggle(setOpen ?? (() => {}), "k", true);
 
   return (
     <CommandDialog open={open} onOpenChange={setOpen}>
-      <CommandInput placeholder="Type or search for your snippet..." />
+      <CommandInput
+        placeholder="Type or search for your snippet..."
+        value={searchQuery}
+        onValueChange={setSearchQuery}
+      />
       <CommandList>
         <CommandEmpty>No results found.</CommandEmpty>
         <CommandGroup heading="Suggestions">

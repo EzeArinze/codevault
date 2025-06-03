@@ -1,4 +1,7 @@
-import { BookOpen, SquareTerminal } from "lucide-react";
+import {
+  // BookOpen,
+  SquareTerminal,
+} from "lucide-react";
 
 export const categoriesTab = [
   {
@@ -41,19 +44,19 @@ export const categoriesTab = [
       },
     ],
   },
-  {
-    title: "Documentation",
-    url: "#",
-    icon: BookOpen,
-    items: [
-      {
-        title: "Introduction",
-        url: "#",
-      },
-      {
-        title: "Tutorials",
-        url: "#",
-      },
-    ],
-  },
+  // {
+  //   title: "Documentation",
+  //   url: "#",
+  //   icon: BookOpen,
+  //   items: [
+  //     {
+  //       title: "Introduction",
+  //       url: "#",
+  //     },
+  //     {
+  //       title: "Tutorials",
+  //       url: "#",
+  //     },
+  //   ],
+  // },
 ];

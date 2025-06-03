@@ -2,27 +2,29 @@
 
 import { PlusCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-// import SnippetCard from "@/components/snippet-card"
 import type { Snippet } from "@/utils/types";
-import SnippetCard from "@/components/dashboard/snippet-card/snippet-card";
+
+import { useQueryState } from "nuqs";
+import { SnippetGrid } from "./snippet-grid";
 
 interface DashboardContentProps {
   snippets: Snippet[];
   onCreateSnippet: () => void;
 }
 
+const filterOptions = [
+  { label: "All", value: "all" },
+  { label: "Recent", value: "recent" },
+  { label: "Favorites", value: "favorite" },
+];
+
 export default function DashboardContent({
   snippets,
   onCreateSnippet,
 }: DashboardContentProps) {
-  const favoriteSnippets = snippets.filter((snippet) => snippet.isFavorite);
-  const recentSnippets = [...snippets]
-    .sort(
-      (a, b) =>
-        new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
-    )
-    .slice(0, 6);
+  const [filterState, setFilterState] = useQueryState("filter", {
+    defaultValue: "all",
+  });
 
   const EmptyState = ({
     message,
@@ -42,44 +44,24 @@ export default function DashboardContent({
     </div>
   );
 
-  const SnippetGrid = ({ snippets }: { snippets: Snippet[] }) => (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      {snippets.map((snippet) => (
-        <SnippetCard key={snippet.id} snippet={snippet} />
-      ))}
-    </div>
-  );
-
   return (
     <>
-      <Tabs defaultValue="all" className="w-full">
-        <TabsList className="mb-4">
-          <TabsTrigger value="all">All</TabsTrigger>
-          <TabsTrigger value="recent">Recent</TabsTrigger>
-          <TabsTrigger value="favorite">Favorites</TabsTrigger>
-        </TabsList>
-        <TabsContent value="all" className="space-y-4">
-          {snippets.length === 0 ? (
-            <EmptyState message="No snippets found" showButton />
-          ) : (
-            <SnippetGrid snippets={snippets} />
-          )}
-        </TabsContent>
-        <TabsContent value="recent" className="space-y-4">
-          {recentSnippets.length === 0 ? (
-            <EmptyState message="No recent snippets" />
-          ) : (
-            <SnippetGrid snippets={recentSnippets} />
-          )}
-        </TabsContent>
-        <TabsContent value="favorite" className="space-y-4">
-          {favoriteSnippets.length === 0 ? (
-            <EmptyState message="No favorite snippets yet" />
-          ) : (
-            <SnippetGrid snippets={favoriteSnippets} />
-          )}
-        </TabsContent>
-      </Tabs>
+      <div className="flex gap-2 mb-4">
+        {filterOptions.map((filter) => (
+          <Button
+            key={filter.value}
+            variant={filterState === filter.value ? "default" : "outline"}
+            onClick={() => setFilterState(filter.value)}
+          >
+            {filter.label}
+          </Button>
+        ))}
+      </div>
+      {snippets.length === 0 ? (
+        <EmptyState message={"No snippets found"} showButton />
+      ) : (
+        <SnippetGrid snippets={snippets} />
+      )}
     </>
   );
 }

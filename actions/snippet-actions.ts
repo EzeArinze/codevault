@@ -1,3 +1,5 @@
+"use server";
+
 import { Snippet } from "@/utils/types";
 import { toast } from "sonner";
 import { db } from "@/db";

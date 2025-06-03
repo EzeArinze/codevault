@@ -16,6 +16,9 @@ import {
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 import { categoriesTab } from "@/utils/constants/sidebar-category-constant";
+import { Button } from "@/components/ui/button";
+// import { cn } from "@/lib/utils";
+import { useQueryState } from "nuqs";
 
 // interface CategoriesProp {
 //   title: string;
@@ -31,6 +34,10 @@ import { categoriesTab } from "@/utils/constants/sidebar-category-constant";
 // const Icon = category.icon;
 
 export function NavCategories() {
+  const [category, setCategory] = useQueryState("category", {
+    defaultValue: "All Snippets",
+  });
+
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Snippets</SidebarGroupLabel>
@@ -55,9 +62,17 @@ export function NavCategories() {
                   {item.items?.map((subItem) => (
                     <SidebarMenuSubItem key={subItem.title}>
                       <SidebarMenuSubButton asChild>
-                        <a href={subItem.url}>
-                          <span>{subItem.title}</span>
-                        </a>
+                        <Button
+                          variant={
+                            category === subItem.title ? "outline" : "ghost"
+                          }
+                          className={
+                            category === subItem.title ? "text-primary" : ""
+                          }
+                          onClick={() => setCategory(subItem.title)}
+                        >
+                          {subItem.title}
+                        </Button>
                       </SidebarMenuSubButton>
                     </SidebarMenuSubItem>
                   ))}
