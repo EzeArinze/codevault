@@ -4,7 +4,7 @@ import { PlusCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 // import SnippetCard from "@/components/snippet-card"
-import type { Snippet } from "@/lib/api";
+import type { Snippet } from "@/utils/types";
 import SnippetCard from "@/components/dashboard/snippet-card/snippet-card";
 
 interface DashboardContentProps {

@@ -3,20 +3,20 @@
 import { db } from "@/db";
 import { categoriesTable, snippetsTable } from "@/db/schema";
 import { getServerSession } from "./get-server-session";
-type NewSnippet = typeof snippetsTable.$inferInsert;
-// type NewCategory = typeof categoriesTable.$inferInsert;
+import { SnippetPayload } from "@/utils/types";
+// import { revalidatePath } from "next/cache";
 
 export const createSnippetWithCategory = async (
-  snippetValues: Omit<NewSnippet, "category_id" | "user_id"> & {
-    categoryName: string;
-  }
+  snippetValues: SnippetPayload
 ) => {
   const { session } = await getServerSession();
 
+  if (!session || !session.user || !session.user.id) {
+    throw new Error("User session is required to create a snippet.");
+  }
   // 1. Try to find the category by name
   const category = await db.query.categoriesTable.findFirst({
-    where: (categories, { eq }) =>
-      eq(categories.name, snippetValues.categoryName),
+    where: (categories, { eq }) => eq(categories.name, snippetValues.category),
   });
 
   let categoryId: string;
@@ -26,20 +26,16 @@ export const createSnippetWithCategory = async (
   } else {
     const inserted = await db
       .insert(categoriesTable)
-      .values({ name: snippetValues.categoryName })
+      .values({ name: snippetValues.category, user_id: session.user.id })
       .returning();
     categoryId = inserted[0].id;
   }
 
-  const { ...snippetData } = snippetValues;
-
-  if (!session || !session.user || !session.user.id) {
-    throw new Error("User session is required to create a snippet.");
-  }
-  const user_id = session.user.id;
   await db.insert(snippetsTable).values({
-    ...snippetData,
+    ...snippetValues,
     category_id: categoryId,
-    user_id,
+    user_id: session.user.id,
   });
+
+  // revalidatePath("/dashboard");
 };

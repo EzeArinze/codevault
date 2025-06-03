@@ -2,6 +2,7 @@ import { Check } from "lucide-react";
 import React from "react";
 import { Button } from "../../ui/button";
 import { pricing } from "@/utils/constants/landing-page-constants";
+import Link from "next/link";
 
 function Pricing() {
   return (
@@ -53,8 +54,8 @@ function Pricing() {
                   </ul>
                 </div>
                 <div className="flex flex-col p-6 pt-0">
-                  <Button variant="outline" className="w-full">
-                    {plan.start_with}
+                  <Button variant="outline" className="w-full" asChild>
+                    <Link href={plan.link}>{plan.start_with}</Link>
                   </Button>
                 </div>
               </div>

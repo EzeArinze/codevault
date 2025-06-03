@@ -1,7 +1,7 @@
-import { Snippet } from "@/lib/api";
+import { Snippet } from "@/utils/types";
 import { toast } from "sonner";
 
-export const deleteSnippet = (snippetId: string) => {
+export const deleteSnippet = async (snippetId: string) => {
   // This function would typically call an API to delete the snippet
   // For now, we just simulate the deletion with a toast message
   toast.success("Deleted!", {

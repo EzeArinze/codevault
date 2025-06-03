@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-import type { Snippet } from "@/lib/api";
+import type { Snippet } from "@/utils/types";
 import {
   copyToClipboard,
   downloadSnippet,

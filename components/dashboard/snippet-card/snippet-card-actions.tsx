@@ -12,7 +12,7 @@ import {
   copyToClipboard,
   downloadSnippet,
 } from "@/utils/helpers/download-and-copy";
-import type { Snippet } from "@/lib/api";
+import type { Snippet } from "@/utils/types";
 
 interface SnippetCardActionsProps {
   snippet: Snippet;

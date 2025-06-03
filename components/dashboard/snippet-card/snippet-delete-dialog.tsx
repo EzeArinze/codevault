@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/alert-dialog";
 
 // import { deleteSnippet } from "@/app/actions"
-import type { Snippet } from "@/lib/api";
+import type { Snippet } from "@/utils/types";
 
 interface SnippetDeleteDialogProps {
   snippet: Snippet;

@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 // import { toggleFavoriteSnippet } from "@/app/actions";
-import type { Snippet } from "@/lib/api";
+import type { Snippet } from "@/utils/types";
 import {
   copyToClipboard,
   downloadSnippet,

@@ -76,6 +76,9 @@ export const categoriesTable = pgTable("categories", {
     .primaryKey()
     .$defaultFn(() => nanoid()),
   name: varchar({ length: 255 }).notNull(),
+  user_id: text()
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
 });
 
 export const snippetsTable = pgTable("snippets", {
@@ -106,9 +109,16 @@ export const userRelations = relations(user, ({ many }) => ({
 }));
 
 // Category has many snippets
-export const categoryRelations = relations(categoriesTable, ({ many }) => ({
-  snippets: many(snippetsTable),
-}));
+export const categoryRelations = relations(
+  categoriesTable,
+  ({ many, one }) => ({
+    snippets: many(snippetsTable),
+    user: one(user, {
+      fields: [categoriesTable.user_id],
+      references: [user.id],
+    }),
+  })
+);
 
 // Snippet belongs to one user and one category
 export const snippetRelations = relations(snippetsTable, ({ one }) => ({

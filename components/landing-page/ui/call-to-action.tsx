@@ -20,7 +20,7 @@ function CallToAction() {
           </div>
           <div className="flex flex-col gap-2 min-[400px]:flex-row">
             <Button size="lg" variant="default" asChild>
-              <Link href="#">
+              <Link href="/sign-in">
                 Sign Up for Free
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>

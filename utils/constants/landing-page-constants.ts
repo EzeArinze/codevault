@@ -74,6 +74,7 @@ export const pricing = [
     features: ["Up to 50 snippets", "Basic categories", "Copy & download"],
     popular: false,
     start_with: "Get Started",
+    link: "/dashboard",
   },
   {
     plan: "Pro",
@@ -87,6 +88,7 @@ export const pricing = [
     ],
     popular: true,
     start_with: "Upgrade Now",
+    link: "/#",
   },
   // {
   //   plan: "Team",

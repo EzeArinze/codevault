@@ -1,4 +1,4 @@
-import { Snippet } from "@/lib/api";
+import { Snippet } from "@/utils/types";
 import { toast } from "sonner";
 
 export const copyToClipboard = (text: string, message: string) => {

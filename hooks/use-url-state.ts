@@ -16,7 +16,7 @@ export function useUrlState() {
     }
 
     const newUrl = `?${params.toString()}`;
-    router.replace(newUrl, { scroll: false }); // ✅ replaces URL without page reload
+    router.replace(newUrl, { scroll: false });
   };
 
   const getParam = (key: string): string | null => {

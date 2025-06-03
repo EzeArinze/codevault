@@ -10,7 +10,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Folder } from "lucide-react";
 
-import type { Snippet } from "@/lib/api";
+import type { Snippet } from "@/utils/types";
 import SnippetCardHeader from "./snippet-card-header";
 import SnippetCodePreview from "./snippet-code-preview";
 import SnippetCardActions from "./snippet-card-actions";

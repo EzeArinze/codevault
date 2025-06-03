@@ -34,7 +34,7 @@ export function NavUser() {
   const { user, initials, signOut, isPending } = useSession();
 
   if (isPending) {
-    return <Skeleton className="h-12 w-[250px]" />;
+    return <Skeleton className="h-12 w-[240px]" />;
   }
 
   return (

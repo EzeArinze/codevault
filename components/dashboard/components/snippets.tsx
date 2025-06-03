@@ -7,7 +7,7 @@ import { Loader2 } from "lucide-react";
 import {
   // getMockSnippets,
   type Snippet,
-} from "@/lib/api";
+} from "@/utils/types";
 import DashboardContent from "./content";
 import CreateSnippetDialog from "./create-snippet-dialog";
 

@@ -1,16 +1,9 @@
-interface FormDetails {
-  title: string;
-  description: string;
-  code: string;
-  language: string;
-  category: string;
-  installCommand: string;
-}
+import { SnippetPayload } from "@/utils/types";
 
-type SetFormDetails = React.Dispatch<React.SetStateAction<FormDetails>>;
+type SetFormDetails = React.Dispatch<React.SetStateAction<SnippetPayload>>;
 
 export const generateInstallCommand = (
-  formDetails: FormDetails,
+  formDetails: SnippetPayload,
   setFormDetails: SetFormDetails
 ): void => {
   if (!formDetails.title || !formDetails.category) return;
@@ -19,7 +12,7 @@ export const generateInstallCommand = (
   const extension = formDetails.language === "typescript" ? "ts" : "js";
   const command = `npx add ${formDetails.category}/${fileName}.${extension}`;
 
-  setFormDetails((prev) => ({ ...prev, installCommand: command }));
+  setFormDetails((prev) => ({ ...prev, command: command }));
 };
 
 //  const generateInstallCommand = () => {

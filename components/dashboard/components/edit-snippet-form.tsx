@@ -18,10 +18,10 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 
-import type { Snippet } from "@/lib/api";
+import type { SnippetPayload } from "@/utils/types";
 
 interface EditSnippetFormProps {
-  snippet: Snippet;
+  snippet: SnippetPayload;
 }
 
 export default function EditSnippetForm({ snippet }: EditSnippetFormProps) {
@@ -31,7 +31,7 @@ export default function EditSnippetForm({ snippet }: EditSnippetFormProps) {
   const [code, setCode] = useState(snippet.code);
   const [language, setLanguage] = useState(snippet.language);
   const [category, setCategory] = useState(snippet.category);
-  const [installCommand, setInstallCommand] = useState(snippet.installCommand);
+  const [installCommand, setInstallCommand] = useState(snippet.command);
   const [isSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -140,7 +140,7 @@ export default function EditSnippetForm({ snippet }: EditSnippetFormProps) {
             <Button
               type="button"
               variant="outline"
-              onClick={() => router.push("/")}
+              onClick={() => router.push("/dashboard")}
               disabled={isSubmitting}
             >
               Cancel

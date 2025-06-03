@@ -14,34 +14,27 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-// import type { Snippet } from "@/lib/api";
 import { Loader2 } from "lucide-react";
 import { categoryOptions, languageOptions } from "@/utils/constants/code";
 import SelectComponent from "@/components/select-component";
 import { generateInstallCommand } from "@/utils/helpers/generate-install-command";
 import { createSnippetWithCategory } from "@/actions/create-snippet";
 import { toast } from "sonner";
-
-interface CreateSnippetDialogProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  // onSnippetCreated: (newSnippet: Snippet) => void;
-}
+import { CreateSnippetDialogProps } from "@/utils/types";
 
 export default function CreateSnippetDialog({
   open,
   onOpenChange,
-}: // onSnippetCreated,
-CreateSnippetDialogProps) {
+}: CreateSnippetDialogProps) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formDetails, setFormDetails] = useState({
     title: "",
     description: "",
     code: "",
     language: "typescript",
     category: "utils",
-    installCommand: "",
+    command: "",
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const onChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -56,8 +49,6 @@ CreateSnippetDialogProps) {
     try {
       await createSnippetWithCategory({
         ...formDetails,
-        command: formDetails.installCommand,
-        categoryName: formDetails.category,
       });
     } catch (error) {
       const newError =
@@ -72,7 +63,15 @@ CreateSnippetDialogProps) {
       throw new Error("faild to create snippet");
     } finally {
       setIsSubmitting(false);
-      onOpenChange?.(false);
+      onOpenChange(false);
+      setFormDetails({
+        title: "",
+        description: "",
+        code: "",
+        language: "typescript",
+        category: "utils",
+        command: "",
+      });
     }
   };
 
@@ -99,7 +98,6 @@ CreateSnippetDialogProps) {
                   required
                 />
               </div>
-              {/*  */}
               <SelectComponent
                 id="language"
                 placeholder="Select language"
@@ -125,7 +123,6 @@ CreateSnippetDialogProps) {
                 required
               />
             </div>
-            {/*  */}
             <SelectComponent
               id="category"
               placeholder="Select category"
@@ -169,7 +166,7 @@ CreateSnippetDialogProps) {
                 id="installCommand"
                 name="installCommand"
                 placeholder="npx add utils/my-util.ts"
-                value={formDetails.installCommand}
+                value={formDetails.command}
                 onChange={onChange}
               />
             </div>
