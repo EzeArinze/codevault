@@ -31,7 +31,7 @@ function CallToAction() {
               className="bg-transparent text-primary-foreground border-primary-foreground/20 hover:bg-primary-foreground/10"
               asChild
             >
-              <Link href="/#">See Demo</Link>
+              <Link href="/docs">See Docs</Link>
             </Button>
           </div>
         </div>
