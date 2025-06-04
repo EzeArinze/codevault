@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { desc, and, eq } from "drizzle-orm";
+import { desc, and, eq, ilike } from "drizzle-orm";
 import { snippetsTable } from "@/db/schema";
 import { isAuthorized } from "@/lib/data-access-layer/is-authorized";
 
@@ -10,6 +10,7 @@ interface GetSnippetsOptions {
   categoryId?: string;
   limit?: number;
   offset?: number;
+  search?: string;
 }
 
 export const getSnippets = async ({
@@ -17,6 +18,7 @@ export const getSnippets = async ({
   categoryId,
   limit,
   offset,
+  search,
 }: GetSnippetsOptions = {}) => {
   const user = await isAuthorized();
 
@@ -30,6 +32,11 @@ export const getSnippets = async ({
 
   if (categoryId) {
     conditions.push(eq(snippetsTable.category_id, categoryId));
+  }
+
+  if (search) {
+    // Case-insensitive search on title
+    conditions.push(ilike(snippetsTable.title, `%${search}%`));
   }
 
   const whereClause = and(...conditions);

@@ -5,23 +5,37 @@ import { toast } from "sonner";
 import { db } from "@/db";
 import { snippetsTable } from "@/db/schema";
 import { eq } from "drizzle-orm";
+import { SnippetSchema } from "@/utils/z-schema/schema";
 
 // Edit a snippet in the database
 export const editSnippet = async (snippet: Snippet) => {
+  const result = SnippetSchema.safeParse(snippet);
+
+  let parsedValues;
+
+  if (!result.success) {
+    return {
+      status: "ERROR",
+      message: result.error.message,
+    };
+  } else {
+    parsedValues = result.data;
+  }
+
   try {
     await db
       .update(snippetsTable)
       .set({
-        title: snippet.title,
-        code: snippet.code,
-        description: snippet.description,
-        language: snippet.language,
-        command: snippet.installCommand,
+        title: parsedValues.title,
+        code: parsedValues.code,
+        description: parsedValues.description,
+        language: parsedValues.language,
+        command: parsedValues.command,
         // add other fields as needed
       })
       .where(eq(snippetsTable.id, snippet.id));
     toast.success("Snippet updated!", {
-      description: `The snippet "${snippet.title}" was updated successfully.`,
+      description: `The snippet "${parsedValues.title}" was updated successfully.`,
     });
   } catch (error) {
     const err =
