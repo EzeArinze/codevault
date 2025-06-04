@@ -1,7 +1,7 @@
 "use client";
 
 import type React from "react";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import {
   Dialog,
   DialogContent,
@@ -16,17 +16,18 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Loader2 } from "lucide-react";
 import { categoryOptions, languageOptions } from "@/utils/constants/code";
-import SelectComponent from "@/components/select-component";
 import { generateInstallCommand } from "@/utils/helpers/generate-install-command";
 import { createSnippetWithCategory } from "@/actions/create-snippet";
 import { toast } from "sonner";
 import { CreateSnippetDialogProps } from "@/utils/types";
 
+import SelectComponent from "@/components/select-component";
+
 export default function CreateSnippetDialog({
   open,
   onOpenChange,
 }: CreateSnippetDialogProps) {
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isPending, startTransition] = useTransition();
   const [formDetails, setFormDetails] = useState({
     title: "",
     description: "",
@@ -43,36 +44,34 @@ export default function CreateSnippetDialog({
     setFormDetails((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    try {
-      await createSnippetWithCategory({
-        ...formDetails,
-      });
-    } catch (error) {
-      const newError =
-        error instanceof Error
-          ? error.message
-          : "Creating snippet not successfull";
+    startTransition(async () => {
+      try {
+        const data = await createSnippetWithCategory({
+          ...formDetails,
+        });
 
-      toast.error("Error", {
-        description: newError,
-      });
-      setIsSubmitting(false);
-      throw new Error("faild to create snippet");
-    } finally {
-      setIsSubmitting(false);
-      onOpenChange(false);
-      setFormDetails({
-        title: "",
-        description: "",
-        code: "",
-        language: "typescript",
-        category: "utils",
-        command: "",
-      });
-    }
+        if (data.status === "SUCCESS") {
+          toast.success(data.status, {
+            description: data.message,
+            position: "top-center",
+          });
+        } else {
+          toast.error(data.status, {
+            description: data.message,
+            position: "top-center",
+          });
+        }
+      } catch {
+        toast.error("Error", {
+          description: "Something went wrong",
+          position: "top-center",
+        });
+      } finally {
+        onOpenChange?.(false);
+      }
+    });
   };
 
   return (
@@ -176,12 +175,12 @@ export default function CreateSnippetDialog({
               type="button"
               variant="outline"
               onClick={() => onOpenChange(false)}
-              disabled={isSubmitting}
+              disabled={isPending}
             >
               Cancel
             </Button>
-            <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? (
+            <Button type="submit" disabled={isPending}>
+              {isPending ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   Saving...

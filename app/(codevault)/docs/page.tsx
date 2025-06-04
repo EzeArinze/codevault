@@ -1,5 +1,5 @@
-import Contents from "@/components/docs/ui/contents";
-import DocsHeader from "@/components/docs/ui/header";
+import Contents from "@/components/docs-page/ui/contents";
+import DocsHeader from "@/components/docs-page/ui/header";
 
 function page() {
   return (

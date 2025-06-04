@@ -28,3 +28,8 @@ export interface CreateSnippetDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
+
+export type createSnipReturnType = {
+  status: "SUCCESS" | "ERROR";
+  message: string;
+};

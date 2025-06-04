@@ -58,7 +58,16 @@ export default function DashboardContent({
         ))}
       </div>
       {snippets.length === 0 ? (
-        <EmptyState message={"No snippets found"} showButton />
+        <EmptyState
+          message={
+            filterState === "all"
+              ? "No snippets found"
+              : filterState === "recent"
+                ? "No recent snippets"
+                : "No favorite snippets yet"
+          }
+          showButton={filterState === "all"}
+        />
       ) : (
         <SnippetGrid snippets={snippets} />
       )}

@@ -1,9 +1,7 @@
-"use server";
-
 import { db } from "@/db";
-import { getServerSession } from "./get-server-session";
 import { desc, and, eq } from "drizzle-orm";
 import { snippetsTable } from "@/db/schema";
+import { isAuthorized } from "@/lib/data-access-layer/is-authorized";
 
 type FilterType = "all" | "recent" | "favorites";
 
@@ -20,11 +18,11 @@ export const getSnippets = async ({
   limit,
   offset,
 }: GetSnippetsOptions = {}) => {
-  const { session } = await getServerSession();
-  if (!session?.user.id) return [];
+  const user = await isAuthorized();
 
+  if (!user) return [];
   // Build where clause based on filter and category
-  const conditions = [eq(snippetsTable.user_id, session.user.id)];
+  const conditions = [eq(snippetsTable.user_id, user.id)];
 
   if (filter === "favorites") {
     conditions.push(eq(snippetsTable.favorite, true));

@@ -2,79 +2,58 @@
 
 import { db } from "@/db";
 import { categoriesTable, snippetsTable } from "@/db/schema";
-import { getServerSession } from "./get-server-session";
-import { SnippetPayload } from "@/utils/types";
-// import { revalidatePath } from "next/cache";
-
-// export const createSnippetWithCategory = async (
-//   snippetValues: SnippetPayload
-// ) => {
-//   if (!snippetValues.code || !snippetValues.title || !snippetValues.command)
-//     return;
-
-//   const { session } = await getServerSession();
-
-//   if (!session || !session.user.id) {
-//     throw new Error("User session is required to create a snippet.");
-//   }
-//   // 1. Try to find the category by name
-//   const category = await db.query.categoriesTable.findFirst({
-//     where: (categories, { eq }) => eq(categories.name, snippetValues.category),
-//   });
-
-//   let categoryId: string;
-
-//   if (category) {
-//     categoryId = category.id;
-//   } else {
-//     const inserted = await db
-//       .insert(categoriesTable)
-//       .values({ name: snippetValues.category, user_id: session.user.id })
-//       .returning();
-//     categoryId = inserted[0].id;
-//   }
-
-//   await db.insert(snippetsTable).values({
-//     ...snippetValues,
-//     category_id: categoryId,
-//     user_id: session.user.id,
-//   });
-
-//   // revalidatePath("/dashboard");
-// };
+import { createSnipReturnType, SnippetPayload } from "@/utils/types";
+import { isAuthorized } from "@/lib/data-access-layer/is-authorized";
+import { revalidatePath } from "next/cache";
+import { SnippetSchema } from "@/utils/z-schema/schema";
 
 export const createSnippetWithCategory = async (
   snippetValues: SnippetPayload
-) => {
-  if (!snippetValues.code || !snippetValues.title || !snippetValues.command)
-    return;
+): Promise<createSnipReturnType> => {
+  const result = SnippetSchema.safeParse(snippetValues);
 
-  const { session } = await getServerSession();
+  let parsedValues;
 
-  if (!session?.user?.id) {
-    throw new Error("User session is required to create a snippet.");
+  if (!result.success) {
+    return {
+      status: "ERROR",
+      message: result.error.message,
+    };
+  } else {
+    parsedValues = result.data;
   }
 
-  let category = await db.query.categoriesTable.findFirst({
-    where: (categories, { eq }) => eq(categories.name, snippetValues.category),
-  });
+  try {
+    const user = await isAuthorized();
 
-  if (!category) {
-    const [inserted] = await db
-      .insert(categoriesTable)
-      .values({ name: snippetValues.category, user_id: session.user.id })
-      .returning();
-    category = inserted;
-  }
+    let category = await db.query.categoriesTable.findFirst({
+      where: (categories, { eq }) => eq(categories.name, parsedValues.category),
+    });
 
-  const [snippet] = await db
-    .insert(snippetsTable)
-    .values({
-      ...snippetValues,
+    if (!category) {
+      const [inserted] = await db
+        .insert(categoriesTable)
+        .values({ name: parsedValues.category, user_id: user.id })
+        .returning();
+      category = inserted;
+    }
+
+    await db.insert(snippetsTable).values({
+      ...parsedValues,
       category_id: category.id,
-      user_id: session.user.id,
-    })
-    .returning();
+      user_id: user.id,
+    });
 
-  return snippet;
+    revalidatePath("/dashboard");
+
+    return {
+      status: "SUCCESS",
+      message: "Snippet Created Successfully",
+    };
+  } catch {
+    return {
+      status: "ERROR",
+      message: "Failed to create Snippet",
+    };
+  }
 };
