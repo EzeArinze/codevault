@@ -3,25 +3,14 @@
 import { useState } from "react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
-import {
-  // getMockSnippets,
-  type Snippet,
-} from "@/utils/types";
 import DashboardContent from "./content";
 import CreateSnippetDialog from "./create-snippet-dialog";
-import Loading from "./loading";
-
-const snippets: Snippet[] = [];
+import { useSnippets } from "@/hooks/service/use-snippets-suspense";
 
 export default function SnippetDashboard() {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
 
-  const [isLoading] = useState(false);
-  const [error] = useState<string | null>(null);
-
-  if (isLoading) {
-    return <Loading message="Loading Snippets..." />;
-  }
+  const { data: snippets, isError: error } = useSnippets();
 
   return (
     <section className="pt-4">

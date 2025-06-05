@@ -2,13 +2,13 @@
 
 import { PlusCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import type { Snippet } from "@/utils/types";
 
 import { useQueryState } from "nuqs";
-import { SnippetGrid } from "./snippet-grid";
+import { SnippetArrayType } from "@/actions/service/get-all-snippets";
+import SnippetCard from "../snippet-card/snippet-card";
 
 interface DashboardContentProps {
-  snippets: Snippet[];
+  snippets: SnippetArrayType;
   onCreateSnippet: () => void;
 }
 
@@ -69,7 +69,11 @@ export default function DashboardContent({
           showButton={filterState === "all"}
         />
       ) : (
-        <SnippetGrid snippets={snippets} />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {snippets.map((snippet) => (
+            <SnippetCard key={snippet.id} snippet={snippet} />
+          ))}
+        </div>
       )}
     </>
   );

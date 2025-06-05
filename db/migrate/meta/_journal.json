@@ -15,6 +15,13 @@
       "when": 1748948052617,
       "tag": "0001_busy_eternals",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1749120702812,
+      "tag": "0002_elite_mentallo",
+      "breakpoints": true
     }
   ]
 }

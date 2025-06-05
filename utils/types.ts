@@ -1,6 +1,19 @@
 /**
  * API service for interacting with the snippet backend
  */
+export interface AllSnippets {
+  favorite: boolean;
+  code: string;
+  title: string;
+  id: string;
+  description: string;
+  language: string;
+  createdAt: Date;
+  updatedAt: Date;
+  user_id: string;
+  category_id: string | null;
+  command: string;
+}
 
 export interface Snippet {
   id: string;

@@ -18,23 +18,22 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 // import { toggleFavoriteSnippet } from "@/app/actions";
-import type { Snippet } from "@/utils/types";
+
 import {
   copyToClipboard,
   downloadSnippet,
 } from "@/utils/helpers/download-and-copy";
+import { SnippetType } from "@/actions/service/get-all-snippets";
 
 interface SnippetCardHeaderProps {
-  title: string;
   isFavorite: boolean;
   onFavoriteChange: (isFavorite: boolean) => void;
   onView: () => void;
   onDelete: () => void;
-  snippet: Snippet;
+  snippet: SnippetType;
 }
 
 export default function SnippetCardHeader({
-  title,
   isFavorite,
   onFavoriteChange,
   onView,
@@ -56,7 +55,7 @@ export default function SnippetCardHeader({
 
   return (
     <div className="flex justify-between items-start">
-      <CardTitle className="text-lg font-bold">{title}</CardTitle>
+      <CardTitle className="text-lg font-bold">{snippet.title}</CardTitle>
       <div className="flex gap-1">
         <TooltipProvider>
           <Tooltip>
@@ -105,10 +104,7 @@ export default function SnippetCardHeader({
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() =>
-                copyToClipboard(
-                  snippet.installCommand,
-                  "Install command copied!"
-                )
+                copyToClipboard(snippet.command, "Install command copied!")
               }
             >
               Copy install command

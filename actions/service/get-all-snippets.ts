@@ -1,3 +1,5 @@
+"use server";
+
 import { db } from "@/db";
 import { desc, and, eq, ilike } from "drizzle-orm";
 import { snippetsTable } from "@/db/schema";
@@ -43,14 +45,21 @@ export const getSnippets = async ({
 
   // Build order and limit for "recent"
   const orderBy =
-    filter === "recent" ? desc(snippetsTable.createdAt) : undefined;
+    filter === "recent" ? desc(snippetsTable.created_at) : undefined;
 
   const AllSnippets = await db.query.snippetsTable.findMany({
     where: whereClause,
     ...(orderBy && { orderBy }),
     ...(limit && { limit }),
     ...(offset && { offset }),
+    with: {
+      category: true,
+    },
   });
 
   return AllSnippets;
 };
+
+export type SnippetArrayType = Awaited<ReturnType<typeof getSnippets>>;
+export type SnippetType = SnippetArrayType[0];
+// This will be an array of your snippet objects (with category relation if included)

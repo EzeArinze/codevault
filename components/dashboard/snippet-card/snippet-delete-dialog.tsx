@@ -13,21 +13,22 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 
-// import { deleteSnippet } from "@/app/actions"
-import type { Snippet } from "@/utils/types";
-
 interface SnippetDeleteDialogProps {
-  snippet: Snippet;
+  id: string;
+  title: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
 export default function SnippetDeleteDialog({
-  snippet,
+  title,
   open,
   onOpenChange,
+  // id,
 }: SnippetDeleteDialogProps) {
   const [isLoading] = useState(false);
+
+  // console.log(id);
 
   const handleDeleteSnippet = async () => {};
 
@@ -37,8 +38,8 @@ export default function SnippetDeleteDialog({
         <AlertDialogHeader>
           <AlertDialogTitle>Are you sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This will permanently delete the snippet {snippet.title}. This
-            action cannot be undone.
+            This will permanently delete the snippet {title}. This action cannot
+            be undone.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

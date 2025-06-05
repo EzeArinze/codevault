@@ -12,14 +12,14 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-import type { Snippet } from "@/utils/types";
 import {
   copyToClipboard,
   downloadSnippet,
 } from "@/utils/helpers/download-and-copy";
+import { SnippetType } from "@/actions/service/get-all-snippets";
 
 interface SnippetViewDialogProps {
-  snippet: Snippet;
+  snippet: SnippetType;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
@@ -40,7 +40,7 @@ export default function SnippetViewDialog({
           <Badge variant="outline">{snippet.language}</Badge>
           <Badge variant="secondary" className="flex items-center gap-1">
             <Folder className="h-3 w-3" />
-            {snippet.category}
+            {snippet.category?.name}
           </Badge>
         </div>
         <ScrollArea className="flex-1 border rounded-md">
@@ -55,10 +55,7 @@ export default function SnippetViewDialog({
               size="sm"
               className="flex items-center gap-1"
               onClick={() =>
-                copyToClipboard(
-                  snippet.installCommand,
-                  "Install command copied!"
-                )
+                copyToClipboard(snippet.command, "Install command copied!")
               }
             >
               <Terminal className="h-4 w-4" />

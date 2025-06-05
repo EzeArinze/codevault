@@ -79,10 +79,10 @@ export const categoriesTable = pgTable("categories", {
   user_id: text()
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
-  createdAt: timestamp()
+  created_at: timestamp()
     .$defaultFn(() => new Date())
     .notNull(),
-  updatedAt: timestamp()
+  updated_at: timestamp()
     .$defaultFn(() => new Date())
     .notNull(),
 });
@@ -107,10 +107,10 @@ export const snippetsTable = pgTable("snippets", {
   favorite: boolean()
     .$defaultFn(() => false)
     .notNull(),
-  createdAt: timestamp()
+  created_at: timestamp()
     .$defaultFn(() => new Date())
     .notNull(),
-  updatedAt: timestamp()
+  updated_at: timestamp()
     .$defaultFn(() => new Date())
     .notNull(),
 });

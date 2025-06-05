@@ -12,10 +12,11 @@ import {
   copyToClipboard,
   downloadSnippet,
 } from "@/utils/helpers/download-and-copy";
-import type { Snippet } from "@/utils/types";
+
+import { SnippetType } from "@/actions/service/get-all-snippets";
 
 interface SnippetCardActionsProps {
-  snippet: Snippet;
+  snippet: SnippetType;
   onView: () => void;
 }
 
@@ -57,10 +58,7 @@ export default function SnippetCardActions({
                 size="icon"
                 className="h-8 w-8"
                 onClick={() =>
-                  copyToClipboard(
-                    snippet.installCommand,
-                    "Install command copied!"
-                  )
+                  copyToClipboard(snippet.command, "Install command copied!")
                 }
               >
                 <Terminal className="h-4 w-4" />

@@ -10,28 +10,27 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Folder } from "lucide-react";
 
-import type { Snippet } from "@/utils/types";
 import SnippetCardHeader from "./snippet-card-header";
 import SnippetCodePreview from "./snippet-code-preview";
 import SnippetCardActions from "./snippet-card-actions";
 import SnippetViewDialog from "./snippet-view-dialog";
 import SnippetDeleteDialog from "./snippet-delete-dialog";
+import { SnippetType } from "@/actions/service/get-all-snippets";
 
 interface SnippetCardProps {
-  snippet: Snippet;
+  snippet: SnippetType;
 }
 
 export default function SnippetCard({ snippet }: SnippetCardProps) {
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const [isFavorite, setIsFavorite] = useState(snippet.isFavorite || false);
+  const [isFavorite, setIsFavorite] = useState(snippet.favorite || false);
 
   return (
     <>
       <Card className="overflow-hidden">
         <CardHeader className="pb-3">
           <SnippetCardHeader
-            title={snippet.title}
             isFavorite={isFavorite}
             onFavoriteChange={setIsFavorite}
             onView={() => setIsViewOpen(true)}
@@ -47,7 +46,7 @@ export default function SnippetCard({ snippet }: SnippetCardProps) {
               className="text-xs flex items-center gap-1"
             >
               <Folder className="h-3 w-3" />
-              {snippet.category}
+              {snippet.category?.name}
             </Badge>
           </div>
           <p className="text-sm text-muted-foreground mt-1">
@@ -72,9 +71,10 @@ export default function SnippetCard({ snippet }: SnippetCardProps) {
       />
 
       <SnippetDeleteDialog
-        snippet={snippet}
+        title={snippet.title}
         open={isDeleteDialogOpen}
         onOpenChange={setIsDeleteDialogOpen}
+        id={snippet.id}
       />
     </>
   );

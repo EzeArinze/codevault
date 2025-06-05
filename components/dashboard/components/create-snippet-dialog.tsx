@@ -22,20 +22,14 @@ import { toast } from "sonner";
 import { CreateSnippetDialogProps } from "@/utils/types";
 
 import SelectComponent from "@/components/select-component";
+import { initialFormDetails } from "../constant";
 
 export default function CreateSnippetDialog({
   open,
   onOpenChange,
 }: CreateSnippetDialogProps) {
   const [isPending, startTransition] = useTransition();
-  const [formDetails, setFormDetails] = useState({
-    title: "",
-    description: "",
-    code: "",
-    language: "typescript",
-    category: "utils",
-    command: "",
-  });
+  const [formDetails, setFormDetails] = useState(initialFormDetails);
 
   const onChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -57,6 +51,7 @@ export default function CreateSnippetDialog({
             description: data.message,
             position: "top-center",
           });
+          setFormDetails(initialFormDetails);
         } else {
           toast.error(data.status, {
             description: data.message,

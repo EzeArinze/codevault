@@ -19,6 +19,8 @@ import { categoriesTab } from "@/utils/constants/sidebar-category-constant";
 import { Button } from "@/components/ui/button";
 // import { cn } from "@/lib/utils";
 import { useQueryState } from "nuqs";
+import { useCategories } from "@/hooks/service/use-categories-suspense";
+import { Skeleton } from "@/components/ui/skeleton";
 
 // interface CategoriesProp {
 //   title: string;
@@ -37,6 +39,8 @@ export function NavCategories() {
   const [category, setCategory] = useQueryState("category", {
     defaultValue: "All Snippets",
   });
+
+  const { data, isLoading } = useCategories();
 
   return (
     <SidebarGroup>
@@ -59,23 +63,31 @@ export function NavCategories() {
               </CollapsibleTrigger>
               <CollapsibleContent>
                 <SidebarMenuSub>
-                  {item.items?.map((subItem) => (
-                    <SidebarMenuSubItem key={subItem.title}>
-                      <SidebarMenuSubButton asChild>
-                        <Button
-                          variant={
-                            category === subItem.title ? "outline" : "ghost"
-                          }
-                          className={
-                            category === subItem.title ? "text-primary" : ""
-                          }
-                          onClick={() => setCategory(subItem.title)}
-                        >
-                          {subItem.title}
-                        </Button>
-                      </SidebarMenuSubButton>
-                    </SidebarMenuSubItem>
-                  ))}
+                  {isLoading ? (
+                    <div className="flex flex-col gap-2 p-2">
+                      {[...Array(4)].map((_, i) => (
+                        <Skeleton className="h-3 w-[50px]" key={i} />
+                      ))}
+                    </div>
+                  ) : (
+                    data?.map((subItem) => (
+                      <SidebarMenuSubItem key={subItem.name}>
+                        <SidebarMenuSubButton asChild>
+                          <Button
+                            variant={
+                              category === subItem.name ? "outline" : "ghost"
+                            }
+                            className={
+                              category === subItem.name ? "text-primary" : ""
+                            }
+                            onClick={() => setCategory(subItem.name)}
+                          >
+                            {subItem.name}
+                          </Button>
+                        </SidebarMenuSubButton>
+                      </SidebarMenuSubItem>
+                    ))
+                  )}
                 </SidebarMenuSub>
               </CollapsibleContent>
             </SidebarMenuItem>

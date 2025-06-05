@@ -4,8 +4,10 @@ import { ThemeProvider } from "@/providers/theme-provider";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { Toaster } from "sonner";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/dashboard/sidebar/app-sidebar";
+// import { AppSidebar } from "@/components/dashboard/sidebar/app-sidebar";
 import DashboardHeader from "@/components/dashboard/sidebar/dashboard-hearder";
+import Providers from "@/providers/query-provider";
+import Sidebar from "@/components/dashboard/sidebar/sidebar";
 
 export const metadata: Metadata = {
   title: "Code Vault",
@@ -20,13 +22,15 @@ export default function Layout({
   return (
     <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
       <NuqsAdapter>
-        <SidebarProvider>
-          <AppSidebar />
-          <SidebarInset>
-            <DashboardHeader />
-            {children}
-          </SidebarInset>
-        </SidebarProvider>
+        <Providers>
+          <SidebarProvider>
+            <Sidebar />
+            <SidebarInset>
+              <DashboardHeader />
+              {children}
+            </SidebarInset>
+          </SidebarProvider>
+        </Providers>
       </NuqsAdapter>
       <Toaster />
     </ThemeProvider>
