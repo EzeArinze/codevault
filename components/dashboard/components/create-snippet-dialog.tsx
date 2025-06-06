@@ -53,9 +53,9 @@ export default function CreateSnippetDialog({
           });
           setFormDetails(initialFormDetails);
         } else {
-          toast.error(data.status, {
-            description: data.message,
+          toast.error(data.message, {
             position: "top-center",
+            duration: 10000,
           });
         }
       } catch {
