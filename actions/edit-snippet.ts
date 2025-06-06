@@ -1,14 +1,14 @@
 "use server";
 
-import { Snippet } from "@/utils/types";
 import { toast } from "sonner";
 import { db } from "@/db";
 import { snippetsTable } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { SnippetSchema } from "@/utils/z-schema/schema";
+import { SnippetEditPayload } from "@/utils/types";
 
 // Edit a snippet in the database
-export const editSnippet = async (snippet: Snippet) => {
+export const editSnippet = async (snippet: SnippetEditPayload) => {
   const result = SnippetSchema.safeParse(snippet);
 
   let parsedValues;

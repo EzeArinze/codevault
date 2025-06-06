@@ -8,6 +8,7 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import DashboardHeader from "@/components/dashboard/sidebar/dashboard-hearder";
 import Providers from "@/providers/query-provider";
 import Sidebar from "@/components/dashboard/sidebar/sidebar";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Code Vault",
@@ -23,13 +24,15 @@ export default function Layout({
     <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
       <NuqsAdapter>
         <Providers>
-          <SidebarProvider>
-            <Sidebar />
-            <SidebarInset>
-              <DashboardHeader />
-              {children}
-            </SidebarInset>
-          </SidebarProvider>
+          <Suspense>
+            <SidebarProvider>
+              <Sidebar />
+              <SidebarInset>
+                <DashboardHeader />
+                {children}
+              </SidebarInset>
+            </SidebarProvider>
+          </Suspense>
         </Providers>
       </NuqsAdapter>
       <Toaster />

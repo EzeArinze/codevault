@@ -44,6 +44,16 @@ export interface SnippetPayload {
   command: string;
 }
 
+export interface SnippetEditPayload {
+  id: string;
+  title: string;
+  description: string;
+  language: string;
+  category: string;
+  code: string;
+  command: string;
+}
+
 export interface CreateSnippetDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;

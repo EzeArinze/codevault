@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+
 import CreateSnippet from "./create-snippet";
 
 import {
@@ -19,6 +19,7 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import { Suspense } from "react";
 
 const teams = [
   {
@@ -38,7 +39,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       {/* Body/Content */}
       <SidebarContent>
         <CreateSnippet />
+        <Suspense>  
         <NavCategories />
+        </Suspense>
         <NavTemplate />
       </SidebarContent>
       {/* Footer */}
