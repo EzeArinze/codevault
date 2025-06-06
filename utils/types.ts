@@ -1,32 +1,39 @@
 /**
  * API service for interacting with the snippet backend
  */
-export interface AllSnippets {
-  favorite: boolean;
-  code: string;
-  title: string;
-  id: string;
-  description: string;
-  language: string;
-  createdAt: Date;
-  updatedAt: Date;
-  user_id: string;
-  category_id: string | null;
-  command: string;
-}
 
-export interface Snippet {
+export type CategoryArrayType = {
   id: string;
+  name: string;
+  created_at: Date;
+  updated_at: Date;
+  user_id: string;
+}[];
+
+export type CategoryType = {
+  id: string;
+  name: string;
+  created_at: Date;
+  updated_at: Date;
+  user_id: string;
+} | null;
+
+export type SnippetArrayType = {
+  id: string;
+  created_at: Date;
+  updated_at: Date;
+  user_id: string;
   title: string;
-  description: string;
   language: string;
-  category: string;
+  description: string;
+  category_id: string | null;
   code: string;
-  installCommand: string;
-  createdAt: string;
-  updatedAt: string;
-  isFavorite?: boolean;
-}
+  command: string;
+  favorite: boolean;
+  category: CategoryType;
+}[];
+
+export type SnippetObjectType = SnippetArrayType[0];
 
 export interface SnippetPayload {
   title: string;

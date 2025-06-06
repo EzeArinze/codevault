@@ -4,6 +4,12 @@ import { db } from "@/db"; // your drizzle instance
 import * as schema from "@/db/schema"; // your drizzle schema
 
 export const auth = betterAuth({
+  session: {
+    cookieCache: {
+      enabled: true,
+      maxAge: 5 * 60, // Cache duration in seconds
+    },
+  },
   socialProviders: {
     github: {
       clientId: process.env.GITHUB_CLIENT_ID as string,

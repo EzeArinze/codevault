@@ -43,7 +43,7 @@ export default function SnippetCard({ snippet }: SnippetCardProps) {
             </Badge>
             <Badge
               variant="secondary"
-              className="text-xs flex items-center gap-1"
+              className="text-xs flex items-center gap-1 "
             >
               <Folder className="h-3 w-3" />
               {snippet.category?.name}
@@ -56,7 +56,7 @@ export default function SnippetCard({ snippet }: SnippetCardProps) {
         <CardContent className="p-0">
           <SnippetCodePreview code={snippet.code} />
         </CardContent>
-        <CardFooter className="flex justify-between pt-3">
+        <CardFooter className="flex justify-between pt-1">
           <SnippetCardActions
             snippet={snippet}
             onView={() => setIsViewOpen(true)}

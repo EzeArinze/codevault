@@ -5,7 +5,7 @@ import { desc, and, eq, ilike } from "drizzle-orm";
 import { snippetsTable } from "@/db/schema";
 import { isAuthorized } from "@/lib/data-access-layer/is-authorized";
 
-type FilterType = "all" | "recent" | "favorites";
+export type FilterType = "all" | "recent" | "favorites";
 
 interface GetSnippetsOptions {
   filter?: FilterType;

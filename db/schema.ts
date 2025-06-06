@@ -6,6 +6,8 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
+import type { InferModel } from "drizzle-orm";
+
 import { nanoid } from "nanoid";
 
 // Auth Tables
@@ -143,3 +145,7 @@ export const snippetRelations = relations(snippetsTable, ({ one }) => ({
     references: [categoriesTable.id],
   }),
 }));
+
+export type SnippetArrayType = InferModel<typeof snippetsTable>;
+
+export type CategoryType = InferModel<typeof categoriesTable>;

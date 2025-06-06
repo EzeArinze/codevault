@@ -1,4 +1,4 @@
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, List } from "lucide-react";
 
 import {
   Collapsible,
@@ -36,8 +36,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 // const Icon = category.icon;
 
 export function NavCategories() {
-  const [category, setCategory] = useQueryState("category", {
-    defaultValue: "All Snippets",
+  const [category, setCategory] = useQueryState("categoryId", {
+    defaultValue: "",
   });
 
   const { data, isLoading } = useCategories();
@@ -46,6 +46,19 @@ export function NavCategories() {
     <SidebarGroup>
       <SidebarGroupLabel>Snippets</SidebarGroupLabel>
       <SidebarMenu>
+        <SidebarMenuItem>
+          <SidebarMenuSubButton asChild>
+            <Button
+              variant={category === "" ? "outline" : "ghost"}
+              className={`w-full justify-start gap-2 ${category === "" ? "text-primary" : ""} `}
+              onClick={() => setCategory("")}
+            >
+              <List className="size-4" />
+              All Snippets
+            </Button>
+          </SidebarMenuSubButton>
+        </SidebarMenuItem>
+
         {categoriesTab.map((item) => (
           <Collapsible
             key={item.title}
@@ -75,12 +88,12 @@ export function NavCategories() {
                         <SidebarMenuSubButton asChild>
                           <Button
                             variant={
-                              category === subItem.name ? "outline" : "ghost"
+                              category === subItem.id ? "outline" : "ghost"
                             }
                             className={
-                              category === subItem.name ? "text-primary" : ""
+                              category === subItem.id ? "text-primary" : ""
                             }
-                            onClick={() => setCategory(subItem.name)}
+                            onClick={() => setCategory(subItem.id)}
                           >
                             {subItem.name}
                           </Button>

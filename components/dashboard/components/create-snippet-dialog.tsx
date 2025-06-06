@@ -86,7 +86,7 @@ export default function CreateSnippetDialog({
                 <Input
                   id="title"
                   name="title"
-                  placeholder="useLocalStorage Hook"
+                  placeholder="eg. useLocalStorage Hook"
                   value={formDetails.title}
                   onChange={onChange}
                   required

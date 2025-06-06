@@ -4,24 +4,26 @@ import { PlusCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 import { useQueryState } from "nuqs";
-import { SnippetArrayType } from "@/actions/service/get-all-snippets";
 import SnippetCard from "../snippet-card/snippet-card";
+import Loading from "./loading";
+import { useSnippets } from "@/hooks/service/use-snippets-suspense";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 interface DashboardContentProps {
-  snippets: SnippetArrayType;
   onCreateSnippet: () => void;
 }
 
 const filterOptions = [
   { label: "All", value: "all" },
   { label: "Recent", value: "recent" },
-  { label: "Favorites", value: "favorite" },
+  { label: "Favorites", value: "favorites" },
 ];
 
 export default function DashboardContent({
-  snippets,
   onCreateSnippet,
 }: DashboardContentProps) {
+  const { data: snippets, isError: error, isLoading } = useSnippets();
+
   const [filterState, setFilterState] = useQueryState("filter", {
     defaultValue: "all",
   });
@@ -46,6 +48,11 @@ export default function DashboardContent({
 
   return (
     <>
+      {error && (
+        <Alert variant="destructive" className="mb-4">
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
+      )}
       <div className="flex gap-2 mb-4">
         {filterOptions.map((filter) => (
           <Button
@@ -57,7 +64,9 @@ export default function DashboardContent({
           </Button>
         ))}
       </div>
-      {snippets.length === 0 ? (
+
+      {isLoading ? <Loading message="Loading Snippet" /> : null}
+      {snippets?.length === 0 && !isLoading ? (
         <EmptyState
           message={
             filterState === "all"
@@ -70,7 +79,7 @@ export default function DashboardContent({
         />
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {snippets.map((snippet) => (
+          {snippets?.map((snippet) => (
             <SnippetCard key={snippet.id} snippet={snippet} />
           ))}
         </div>
