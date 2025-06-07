@@ -20,14 +20,15 @@ import {
   copyToClipboard,
   downloadSnippet,
 } from "@/utils/helpers/download-and-copy";
-import { SnippetType } from "@/actions/service/get-all-snippets";
+
 import { toast } from "sonner";
 import { useToggleFavorite } from "@/hooks/service/use-toogle-favorite";
+import { SnippetObjectType } from "@/utils/types";
 
 interface SnippetCardHeaderProps {
   onView: () => void;
   onDelete: () => void;
-  snippet: SnippetType;
+  snippet: SnippetObjectType;
 }
 
 export default function SnippetCardHeader({

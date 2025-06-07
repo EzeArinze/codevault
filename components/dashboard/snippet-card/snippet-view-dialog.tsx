@@ -16,10 +16,10 @@ import {
   copyToClipboard,
   downloadSnippet,
 } from "@/utils/helpers/download-and-copy";
-import { SnippetType } from "@/actions/service/get-all-snippets";
+import { SnippetObjectType } from "@/utils/types";
 
 interface SnippetViewDialogProps {
-  snippet: SnippetType;
+  snippet: SnippetObjectType;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }

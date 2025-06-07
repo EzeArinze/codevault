@@ -1,5 +1,5 @@
-import { SnippetType } from "@/actions/service/get-all-snippets";
 import { toast } from "sonner";
+import { SnippetObjectType } from "../types";
 
 export const copyToClipboard = (text: string, message: string) => {
   navigator.clipboard.writeText(text);
@@ -8,7 +8,7 @@ export const copyToClipboard = (text: string, message: string) => {
   });
 };
 
-export const downloadSnippet = (snippet: SnippetType) => {
+export const downloadSnippet = (snippet: SnippetObjectType) => {
   const element = document.createElement("a");
   const file = new Blob([snippet.code], { type: "text/plain" });
   element.href = URL.createObjectURL(file);

@@ -12,11 +12,10 @@ import {
   copyToClipboard,
   downloadSnippet,
 } from "@/utils/helpers/download-and-copy";
-
-import { SnippetType } from "@/actions/service/get-all-snippets";
+import { SnippetObjectType } from "@/utils/types";
 
 interface SnippetCardActionsProps {
-  snippet: SnippetType;
+  snippet: SnippetObjectType;
   onView: () => void;
 }
 
