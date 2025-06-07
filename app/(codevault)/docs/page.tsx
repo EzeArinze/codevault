@@ -1,13 +1,16 @@
-import Contents from "@/components/docs-page/ui/contents";
-import DocsHeader from "@/components/docs-page/ui/header";
+import DocsContent from "@/components/docs-page/ui/contents";
+import DocsLayout from "@/components/docs-page/ui/docs-layout";
 
-function page() {
+export const metadata = {
+  title: "Documentation - CodeVault",
+  description:
+    "Complete guide to using CodeVault for managing your code snippets",
+};
+
+export default function DocsPage() {
   return (
-    <div className="flex min-h-screen flex-col">
-      <DocsHeader />
-      <Contents />
-    </div>
+    <DocsLayout>
+      <DocsContent />
+    </DocsLayout>
   );
 }
-
-export default page;
