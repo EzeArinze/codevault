@@ -1,4 +1,4 @@
-import { CategoryType } from "@/actions/service/get-snippets-categories";
+import { CategoryType } from "@/actions/get-snippets-categories";
 import { useQuery } from "@tanstack/react-query";
 
 export function useCategories() {
