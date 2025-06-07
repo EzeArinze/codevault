@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { Star, MoreHorizontal, Edit, Trash, Loader2 } from "lucide-react";
 import { CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -17,41 +16,39 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-// import { toggleFavoriteSnippet } from "@/app/actions";
-
 import {
   copyToClipboard,
   downloadSnippet,
 } from "@/utils/helpers/download-and-copy";
 import { SnippetType } from "@/actions/service/get-all-snippets";
+import { toast } from "sonner";
+import { useToggleFavorite } from "@/hooks/service/use-toogle-favorite";
 
 interface SnippetCardHeaderProps {
-  isFavorite: boolean;
-  onFavoriteChange: (isFavorite: boolean) => void;
   onView: () => void;
   onDelete: () => void;
   snippet: SnippetType;
 }
 
 export default function SnippetCardHeader({
-  isFavorite,
-  onFavoriteChange,
   onView,
   onDelete,
   snippet,
 }: SnippetCardHeaderProps) {
-  const [isLoading] = useState(false);
+  const { mutate, isPending: isToggling } = useToggleFavorite(snippet.id);
 
-  const handleToggleFavorite = async () => {
-    try {
-      // Simulate API call to toggle favorite status
-      // const updatedSnippet = await toggleFavoriteSnippet(snippet.id, !isFavorite);
-      // onFavoriteChange(updatedSnippet.isFavorite);
-      onFavoriteChange(!isFavorite); // For demo purposes, directly toggle
-    } catch (error) {
-      console.error("Failed to toggle favorite:", error);
-    }
+  const handleToggleFavorite = () => {
+    mutate(snippet.favorite, {
+      onSuccess: (data) => {
+        toast.success(data.message);
+      },
+      onError: (err) => {
+        toast.error(err.message || "Failed to toggle favorite");
+      },
+    });
   };
+
+  const isFavorite = snippet.favorite || false;
 
   return (
     <div className="flex justify-between items-start">
@@ -65,9 +62,9 @@ export default function SnippetCardHeader({
                 size="icon"
                 className="h-8 w-8"
                 onClick={handleToggleFavorite}
-                disabled={isLoading}
+                disabled={isToggling}
               >
-                {isLoading ? (
+                {isToggling ? (
                   <Loader2 className="h-4 w-4 animate-spin" />
                 ) : (
                   <Star

@@ -1,9 +1,8 @@
-import {
-  FilterType,
-  SnippetArrayType,
-} from "@/actions/service/get-all-snippets";
+import { SnippetArrayType } from "@/utils/types";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
+
+type FilterType = "all" | "recent" | "favorites";
 
 export function useSnippets() {
   const searchParams = useSearchParams();

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { memo, useState } from "react";
 import {
   Card,
   CardContent,
@@ -15,24 +15,25 @@ import SnippetCodePreview from "./snippet-code-preview";
 import SnippetCardActions from "./snippet-card-actions";
 import SnippetViewDialog from "./snippet-view-dialog";
 import SnippetDeleteDialog from "./snippet-delete-dialog";
-import { SnippetType } from "@/actions/service/get-all-snippets";
+import { SnippetObjectType } from "@/utils/types";
+
+const MemoSnippetCardHeader = memo(SnippetCardHeader);
+const MemoSnippetCodePreview = memo(SnippetCodePreview);
+const MemoSnippetCardActions = memo(SnippetCardActions);
 
 interface SnippetCardProps {
-  snippet: SnippetType;
+  snippet: SnippetObjectType;
 }
 
 export default function SnippetCard({ snippet }: SnippetCardProps) {
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const [isFavorite, setIsFavorite] = useState(snippet.favorite || false);
 
   return (
     <>
       <Card className="overflow-hidden">
         <CardHeader className="pb-3">
-          <SnippetCardHeader
-            isFavorite={isFavorite}
-            onFavoriteChange={setIsFavorite}
+          <MemoSnippetCardHeader
             onView={() => setIsViewOpen(true)}
             onDelete={() => setIsDeleteDialogOpen(true)}
             snippet={snippet}
@@ -54,10 +55,10 @@ export default function SnippetCard({ snippet }: SnippetCardProps) {
           </p>
         </CardHeader>
         <CardContent className="p-0">
-          <SnippetCodePreview code={snippet.code} />
+          <MemoSnippetCodePreview code={snippet.code} />
         </CardContent>
         <CardFooter className="flex justify-between pt-1">
-          <SnippetCardActions
+          <MemoSnippetCardActions
             snippet={snippet}
             onView={() => setIsViewOpen(true)}
           />

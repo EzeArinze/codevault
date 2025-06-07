@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 
 import { PlusCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -27,24 +28,6 @@ export default function DashboardContent({
   const [filterState, setFilterState] = useQueryState("filter", {
     defaultValue: "all",
   });
-
-  const EmptyState = ({
-    message,
-    showButton = false,
-  }: {
-    message: string;
-    showButton?: boolean;
-  }) => (
-    <div className="text-center py-12">
-      <p className="text-muted-foreground mb-4">{message}</p>
-      {showButton && (
-        <Button onClick={onCreateSnippet}>
-          <PlusCircle className="h-4 w-4 mr-2" />
-          Create your first snippet
-        </Button>
-      )}
-    </div>
-  );
 
   return (
     <>
@@ -76,6 +59,7 @@ export default function DashboardContent({
                 : "No favorite snippets yet"
           }
           showButton={filterState === "all"}
+          onCreateSnippet={onCreateSnippet}
         />
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -87,3 +71,25 @@ export default function DashboardContent({
     </>
   );
 }
+
+const EmptyState = React.memo(function EmptyState({
+  message,
+  showButton = false,
+  onCreateSnippet,
+}: {
+  message: string;
+  showButton?: boolean;
+  onCreateSnippet: () => void;
+}) {
+  return (
+    <div className="text-center py-12">
+      <p className="text-muted-foreground mb-4">{message}</p>
+      {showButton && (
+        <Button onClick={onCreateSnippet}>
+          <PlusCircle className="h-4 w-4 mr-2" />
+          Create your first snippet
+        </Button>
+      )}
+    </div>
+  );
+});

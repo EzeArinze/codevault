@@ -1,8 +1,6 @@
 "use client";
 
 import { useState } from "react";
-// import { useSearchParams } from "next/navigation";
-// import { Alert, AlertDescription } from "@/components/ui/alert";
 
 import DashboardContent from "./content";
 import CreateSnippetDialog from "./create-snippet-dialog";
