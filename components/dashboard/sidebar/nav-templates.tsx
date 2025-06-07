@@ -29,12 +29,12 @@ import {
 const templates = [
   {
     name: "Next Js Starter",
-    url: "#",
+    url: "https://vercel.com/templates",
     icon: Frame,
   },
   {
-    name: "Vite Starter",
-    url: "#",
+    name: "React Starter",
+    url: "https://vercel.com/templates?framework=react",
     icon: PieChart,
   },
 ];
@@ -49,7 +49,7 @@ export function NavTemplate() {
         {templates.map((item) => (
           <SidebarMenuItem key={item.name}>
             <SidebarMenuButton asChild>
-              <a href={item.url}>
+              <a href={item.url} target="_blank" rel="noopener noreferrer">
                 <item.icon />
                 <span>{item.name}</span>
               </a>
