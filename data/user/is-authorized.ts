@@ -1,8 +1,9 @@
-"use server";
-import { auth } from "../auth";
+import "server-only";
+import { cache } from "react";
+import { auth } from "../../lib/auth";
 import { headers } from "next/headers";
 
-export const isAuthorized = async () => {
+export const isAuthorized = cache(async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -12,4 +13,4 @@ export const isAuthorized = async () => {
   }
 
   return session.user;
-};
+});

@@ -3,6 +3,12 @@ import { getSnippetCategories } from "@/actions/service/get-snippets-categories"
 import { NextResponse } from "next/server";
 
 export async function GET() {
-  const data = await getSnippetCategories();
-  return NextResponse.json(data);
+  try {
+    const data = await getSnippetCategories();
+    return NextResponse.json(data);
+  } catch (error) {
+    const err =
+      error instanceof Error ? error.message : "Error fetching categories";
+    return NextResponse.json({ message: err }, { status: 500 });
+  }
 }

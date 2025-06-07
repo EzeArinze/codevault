@@ -2,9 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db";
 import { and, desc, eq, ilike } from "drizzle-orm";
 import { snippetsTable } from "@/db/schema";
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
 import { SearchParamsValues } from "@/server/nuqs-server";
+import { isAuthorized } from "@/data/user/is-authorized";
 
 export type FilterType = "all" | "recent" | "favorites";
 
@@ -15,15 +14,13 @@ export async function GET(req: NextRequest) {
   const parsedLimit = limit ? parseInt(limit, 10) : undefined;
   const parsedOffset = offset ? parseInt(offset, 10) : undefined;
 
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const session = await isAuthorized();
 
-  if (!session?.user) {
+  if (!session) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 
-  const conditions = [eq(snippetsTable.user_id, session.user.id)];
+  const conditions = [eq(snippetsTable.user_id, session.id)];
 
   // Map-based logic for filters
   const filterLogic: Record<FilterType, () => void> = {

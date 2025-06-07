@@ -1,4 +1,4 @@
-import { getServerSession } from "@/actions/get-server-session";
+import { getServerSession } from "@/data/user/get-server-session";
 import { LoginForm } from "@/components/auth/ui/login-view";
 import { ChevronsLeftRight } from "lucide-react";
 import { redirect } from "next/navigation";

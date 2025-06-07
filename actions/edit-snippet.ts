@@ -6,7 +6,7 @@ import { snippetsTable } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { SnippetSchema } from "@/utils/z-schema/schema";
 import { SnippetEditPayload } from "@/utils/types";
-import { isAuthorized } from "@/lib/data-access-layer/is-authorized";
+import { isAuthorized } from "@/data/user/is-authorized";
 
 // Edit a snippet in the database
 export const editSnippet = async (snippet: SnippetEditPayload) => {

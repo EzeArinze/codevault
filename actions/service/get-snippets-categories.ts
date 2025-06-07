@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { isAuthorized } from "@/lib/data-access-layer/is-authorized";
+import { isAuthorized } from "@/data/user/is-authorized";
 
 export const getSnippetCategories = async () => {
   const user = await isAuthorized();

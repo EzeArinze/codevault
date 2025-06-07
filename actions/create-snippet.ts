@@ -3,7 +3,7 @@
 import { db } from "@/db";
 import { categoriesTable, snippetsTable } from "@/db/schema";
 import { createSnipReturnType, SnippetPayload } from "@/utils/types";
-import { isAuthorized } from "@/lib/data-access-layer/is-authorized";
+import { isAuthorized } from "@/data/user/is-authorized";
 import { revalidatePath } from "next/cache";
 import { SnippetSchema } from "@/utils/z-schema/schema";
 

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db";
 import { snippetsTable } from "@/db/schema";
-import { isAuthorized } from "@/lib/data-access-layer/is-authorized";
+import { isAuthorized } from "@/data/user/is-authorized";
 import { eq } from "drizzle-orm";
 
 export async function DELETE(
