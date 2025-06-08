@@ -43,7 +43,7 @@ export function useToggleFavorite(snippetId: string) {
       }
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["snippets"] });
+      queryClient.invalidateQueries({ queryKey: ["snippets"], exact: false });
     },
   });
 }

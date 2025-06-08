@@ -39,7 +39,7 @@ export function useDeleteSnippet() {
       }
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["snippets"] });
+      queryClient.invalidateQueries({ queryKey: ["snippets"], exact: false });
     },
   });
 }
