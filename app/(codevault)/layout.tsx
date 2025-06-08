@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "../globals.css";
 import { ThemeProvider } from "@/providers/theme-provider";
-import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "Code Vault",
@@ -18,7 +17,6 @@ export default function RootLayout({
       <body>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           {children}
-          <Toaster />
         </ThemeProvider>
       </body>
     </html>

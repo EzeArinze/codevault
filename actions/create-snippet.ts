@@ -17,7 +17,7 @@ export const createSnippetWithCategory = async (
   if (!result.success) {
     return {
       status: "ERROR",
-      message: result.error.message,
+      message: result.error.issues[0]?.message || "Invalid snippet data",
     };
   } else {
     parsedValues = result.data;

@@ -41,15 +41,9 @@ export const editSnippet = async (snippet: SnippetEditPayload) => {
         // add other fields as needed
       })
       .where(eq(snippetsTable.id, snippet.id));
-    toast.success("Snippet updated!", {
-      description: `The snippet "${parsedValues.title}" was updated successfully.`,
-    });
   } catch (error) {
     const err =
       error instanceof Error ? error.message : "Error updating snippet";
     console.log(err);
-    toast.error("Update failed", {
-      description: "There was an error updating the snippet.",
-    });
   }
 };

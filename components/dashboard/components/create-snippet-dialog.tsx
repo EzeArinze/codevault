@@ -23,6 +23,7 @@ import { CreateSnippetDialogProps } from "@/utils/types";
 
 import SelectComponent from "@/components/select-component";
 import { initialFormDetails } from "../constant";
+import { SnippetSchema } from "@/utils/z-schema/schema";
 
 export default function CreateSnippetDialog({
   open,
@@ -30,6 +31,7 @@ export default function CreateSnippetDialog({
 }: CreateSnippetDialogProps) {
   const [isPending, startTransition] = useTransition();
   const [formDetails, setFormDetails] = useState(initialFormDetails);
+  const [error, setError] = useState<string | null>(null);
 
   const onChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -40,6 +42,14 @@ export default function CreateSnippetDialog({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    const result = SnippetSchema.safeParse(formDetails);
+
+    if (!result.success) {
+      // setError(result.error.issues[0]?.message);
+      setError(result.error.message);
+      return;
+    }
     startTransition(async () => {
       try {
         const data = await createSnippetWithCategory({
@@ -49,19 +59,14 @@ export default function CreateSnippetDialog({
         if (data.status === "SUCCESS") {
           toast.success(data.status, {
             description: data.message,
-            position: "top-center",
           });
           setFormDetails(initialFormDetails);
         } else {
-          toast.error(data.message, {
-            position: "top-center",
-            duration: 10000,
-          });
+          toast.error(data.message);
         }
       } catch {
         toast.error("Error", {
           description: "Something went wrong",
-          position: "top-center",
         });
       } finally {
         onOpenChange?.(false);
@@ -164,6 +169,9 @@ export default function CreateSnippetDialog({
                 onChange={onChange}
               />
             </div>
+            {error ? (
+              <p className="text-red-400 h-4 font-medium">{error}</p>
+            ) : null}
           </div>
           <DialogFooter>
             <Button

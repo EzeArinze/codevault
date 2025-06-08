@@ -35,7 +35,7 @@ export default function Layout({
           </Suspense>
         </Providers>
       </NuqsAdapter>
-      <Toaster />
+      <Toaster position={"top-center"} duration={1000} />
     </ThemeProvider>
   );
 }
