@@ -44,16 +44,16 @@ export async function POST(req: NextRequest) {
     }
 
     // Insert snippet
-    await db.insert(snippetsTable).values({
-      ...parsedValues,
-      category_id: category.id,
-      user_id: user.id,
-    });
+    const data = await db
+      .insert(snippetsTable)
+      .values({
+        ...parsedValues,
+        category_id: category.id,
+        user_id: user.id,
+      })
+      .returning();
 
-    return NextResponse.json({
-      status: "SUCCESS",
-      message: "Snippet Created Successfully",
-    });
+    return NextResponse.json(data, { status: 200 });
   } catch (error) {
     return NextResponse.json(
       {

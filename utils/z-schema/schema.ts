@@ -14,9 +14,12 @@ export const SnippetSchema = z.object({
     .refine(noScript, {
       message: "Scripts are not allowed in the description.",
     }),
-  code: z.string().min(25, "Code is required").refine(noScript, {
-    message: "Scripts are not allowed in the code.",
-  }),
+  code: z
+    .string()
+    .min(25, "Code is required or length is too small")
+    .refine(noScript, {
+      message: "Scripts are not allowed in the code.",
+    }),
   language: z.string().min(3, "Language is required"),
   category: z.string().min(4, "Category is required"),
   command: z.string().min(6, "Command is required").refine(noScript, {

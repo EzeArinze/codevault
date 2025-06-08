@@ -1,53 +1,66 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { SnippetArrayType } from "@/utils/types";
 
-type SnippetType = SnippetArrayType[number];
+type SnippetType = {
+  id: string;
+  title: string;
+  description: string;
+  language: string;
+  category: string;
+  code: string;
+  command: string;
+};
 
 export function useAddSnippet() {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async (initialData: Omit<SnippetType, "id">) => {
-      const response = await axios.post("/api/snippets/create", initialData, {
+      const response = await axios.post(`/api/snippets/create`, initialData, {
         headers: { "Content-Type": "application/json" },
       });
       return response.data;
     },
 
+    // Optimistic update
     onMutate: async (newSnippet) => {
-      await queryClient.cancelQueries({ queryKey: ["snippets"] });
+      await queryClient.cancelQueries({ queryKey: ["snippets"], exact: false });
 
-      const previousSnippets = queryClient.getQueryData<SnippetType[]>([
-        "snippets",
-      ]);
-      const tempId = `temp-${Date.now()}`;
-      const optimisticSnippet = { ...newSnippet, id: tempId };
+      // Store previous data for rollback
+      const previousSnippetsQueries = queryClient.getQueriesData<SnippetType[]>(
+        {
+          queryKey: ["snippets"],
+        }
+      );
 
-      queryClient.setQueryData<SnippetType[]>(["snippets"], (oldData) => {
-        return oldData ? [...oldData, optimisticSnippet] : [optimisticSnippet];
-      });
+      // Optimistically update each matching snippet query
+      const optimisticSnippet = {
+        ...newSnippet,
+        id: `temp-${Date.now()}`,
+      };
 
-      return { previousSnippets, tempId };
-    },
-
-    onSuccess: (newSnippet, _, context) => {
-      queryClient.setQueryData<SnippetType[]>(["snippets"], (oldData) => {
-        if (!oldData) return [newSnippet];
-        // Replace the temp snippet with the real one
-        return oldData.map((snippet) =>
-          snippet.id === context?.tempId ? newSnippet : snippet
+      previousSnippetsQueries.forEach(([key]) => {
+        queryClient.setQueryData<SnippetType[]>(key, (old) =>
+          old ? [...old, optimisticSnippet] : [optimisticSnippet]
         );
       });
+
+      return { previousSnippetsQueries, tempId: optimisticSnippet.id };
+    },
+
+    onSuccess: () => {
+      // Refetch all snippet queries
+      queryClient.invalidateQueries({ queryKey: ["snippets"], exact: false });
       toast.success("Snippet added successfully");
     },
 
-    onError: (_error, _, context) => {
-      toast.error("Failed to add Snippet");
-      if (context?.previousSnippets) {
-        queryClient.setQueryData(["snippets"], context.previousSnippets);
-      }
+    onError: (_error, _vars, context) => {
+      toast.error("Failed to add snippet");
+      // Rollback to previous data
+      context?.previousSnippetsQueries?.forEach(([key, data]) => {
+        queryClient.setQueryData(key, data);
+      });
     },
   });
 }

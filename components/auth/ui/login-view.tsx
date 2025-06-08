@@ -64,6 +64,7 @@ export function LoginForm({
                   variant="outline"
                   className="w-full"
                   onClick={() => handleLogin("github")}
+                  disabled={loading}
                 >
                   <Github />
                   Login with Github
@@ -72,6 +73,7 @@ export function LoginForm({
                   variant="outline"
                   className="w-full"
                   onClick={() => handleLogin("google")}
+                  disabled={loading}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path

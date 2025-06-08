@@ -1,7 +1,10 @@
 "use client";
 
 import type React from "react";
-import { useState, useTransition } from "react";
+import {
+  useState,
+  // useTransition
+} from "react";
 import {
   Dialog,
   DialogContent,
@@ -17,21 +20,20 @@ import { Textarea } from "@/components/ui/textarea";
 import { Loader2 } from "lucide-react";
 import { categoryOptions, languageOptions } from "@/utils/constants/code";
 import { generateInstallCommand } from "@/utils/helpers/generate-install-command";
-import { createSnippetWithCategory } from "@/actions/create-snippet";
-import { toast } from "sonner";
 import { CreateSnippetDialogProps } from "@/utils/types";
 
 import SelectComponent from "@/components/select-component";
 import { initialFormDetails } from "../constant";
 import { SnippetSchema } from "@/utils/z-schema/schema";
+import { useAddSnippet } from "@/hooks/service/use-create-snippet";
 
 export default function CreateSnippetDialog({
   open,
   onOpenChange,
 }: CreateSnippetDialogProps) {
-  const [isPending, startTransition] = useTransition();
   const [formDetails, setFormDetails] = useState(initialFormDetails);
   const [error, setError] = useState<string | null>(null);
+  const { mutate: addSnippet, isPending } = useAddSnippet();
 
   const onChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -40,37 +42,21 @@ export default function CreateSnippetDialog({
     setFormDetails((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const result = SnippetSchema.safeParse(formDetails);
 
     if (!result.success) {
-      // setError(result.error.issues[0]?.message);
-      setError(result.error.message);
+      setError(result.error.issues[0]?.message);
       return;
     }
-    startTransition(async () => {
-      try {
-        const data = await createSnippetWithCategory({
-          ...formDetails,
-        });
 
-        if (data.status === "SUCCESS") {
-          toast.success(data.status, {
-            description: data.message,
-          });
-          setFormDetails(initialFormDetails);
-        } else {
-          toast.error(data.message);
-        }
-      } catch {
-        toast.error("Error", {
-          description: "Something went wrong",
-        });
-      } finally {
+    addSnippet(formDetails, {
+      onSuccess: () => {
+        setFormDetails(initialFormDetails);
         onOpenChange?.(false);
-      }
+      },
     });
   };
 
