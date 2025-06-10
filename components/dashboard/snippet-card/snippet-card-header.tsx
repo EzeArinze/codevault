@@ -26,6 +26,7 @@ import { useToggleFavorite } from "@/hooks/service/use-toogle-favorite";
 import { SnippetObjectType } from "@/utils/types";
 
 interface SnippetCardHeaderProps {
+  onEdit: () => void;
   onView: () => void;
   onDelete: () => void;
   snippet: SnippetObjectType;
@@ -34,6 +35,7 @@ interface SnippetCardHeaderProps {
 export default function SnippetCardHeader({
   onView,
   onDelete,
+  onEdit,
   snippet,
 }: SnippetCardHeaderProps) {
   const { mutate, isPending: isToggling } = useToggleFavorite(snippet.id);
@@ -110,9 +112,7 @@ export default function SnippetCardHeader({
             <DropdownMenuItem onClick={() => downloadSnippet(snippet)}>
               Download
             </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => (window.location.href = `/edit/${snippet.id}`)}
-            >
+            <DropdownMenuItem onClick={onEdit}>
               <Edit className="h-4 w-4 mr-2" />
               Edit
             </DropdownMenuItem>

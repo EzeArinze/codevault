@@ -1,3 +1,4 @@
+import { api } from "@/lib/axios";
 import { SnippetArrayType } from "@/utils/types";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
@@ -22,9 +23,8 @@ export function useSnippets() {
   return useQuery<SnippetArrayType>({
     queryKey: ["snippets", q, filter, categoryId],
     queryFn: async () => {
-      const res = await fetch(`/api/snippets?${queryString}`);
-      if (!res.ok) throw new Error("Failed to load");
-      return res.json();
+      const res = await api.get(`/snippets?${queryString}`);
+      return res.data;
     },
   });
 }

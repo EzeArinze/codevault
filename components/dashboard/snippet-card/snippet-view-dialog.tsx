@@ -31,7 +31,7 @@ export default function SnippetViewDialog({
 }: SnippetViewDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-3xl max-h-[90vh] flex flex-col">
+      <DialogContent className="sm:max-w-3xl max-h-[70%] flex flex-col">
         <DialogHeader>
           <DialogTitle>{snippet.title}</DialogTitle>
           <DialogDescription>{snippet.description}</DialogDescription>
@@ -43,34 +43,33 @@ export default function SnippetViewDialog({
             {snippet.category?.name}
           </Badge>
         </div>
-        <ScrollArea className="flex-1 border rounded-md">
+        <ScrollArea className="flex-1 border rounded-md overflow-auto">
           <pre className="p-4 text-sm font-mono whitespace-pre-wrap overflow-auto">
             {snippet.code}
           </pre>
         </ScrollArea>
         <div className="grid grid-cols-1 md:grid-cols-2  gap-1 justify-between items-center mt-4">
-          <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              className="flex items-center gap-1"
-              onClick={() =>
-                copyToClipboard(snippet.command, "Install command copied!")
-              }
-            >
-              <Terminal className="h-4 w-4" />
-              Copy Install Command
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              className="flex items-center gap-1"
-              onClick={() => downloadSnippet(snippet)}
-            >
-              <Download className="h-4 w-4" />
-              Download
-            </Button>
-          </div>
+          <Button
+            variant="outline"
+            size="sm"
+            className="flex items-center gap-1"
+            onClick={() =>
+              copyToClipboard(snippet.command, "Install command copied!")
+            }
+          >
+            <Terminal className="h-4 w-4" />
+            Copy Install Command
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            className="flex items-center gap-1"
+            onClick={() => downloadSnippet(snippet)}
+          >
+            <Download className="h-4 w-4" />
+            Download
+          </Button>
+
           <Button
             onClick={() =>
               copyToClipboard(snippet.code, "Code copied to clipboard!")

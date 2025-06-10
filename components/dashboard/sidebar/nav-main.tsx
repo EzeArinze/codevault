@@ -19,7 +19,7 @@ import { categoriesTab } from "@/utils/constants/sidebar-category-constant";
 import { Button } from "@/components/ui/button";
 // import { cn } from "@/lib/utils";
 import { useQueryState } from "nuqs";
-import { useCategories } from "@/hooks/service/use-categories-suspense";
+import { useCategories } from "@/hooks/service/use-categories";
 import { Skeleton } from "@/components/ui/skeleton";
 
 // interface CategoriesProp {

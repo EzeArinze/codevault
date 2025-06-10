@@ -16,6 +16,8 @@ import SnippetCardActions from "./snippet-card-actions";
 import SnippetViewDialog from "./snippet-view-dialog";
 import SnippetDeleteDialog from "./snippet-delete-dialog";
 import { SnippetObjectType } from "@/utils/types";
+import EditSnippetForm from "../components/edit-snippet-form";
+// import { useDialogStore } from "@/store/use-dialog-store";
 
 const MemoSnippetCardHeader = memo(SnippetCardHeader);
 const MemoSnippetCodePreview = memo(SnippetCodePreview);
@@ -28,14 +30,16 @@ interface SnippetCardProps {
 export default function SnippetCard({ snippet }: SnippetCardProps) {
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
   return (
     <>
-      <Card className="overflow-hidden">
+      <Card className="overflow-hidden ">
         <CardHeader className="pb-3">
           <MemoSnippetCardHeader
             onView={() => setIsViewOpen(true)}
             onDelete={() => setIsDeleteDialogOpen(true)}
+            onEdit={() => setIsEditDialogOpen(true)}
             snippet={snippet}
           />
           <div className="flex items-center gap-2 mt-1">
@@ -69,6 +73,12 @@ export default function SnippetCard({ snippet }: SnippetCardProps) {
         snippet={snippet}
         open={isViewOpen}
         onOpenChange={setIsViewOpen}
+      />
+
+      <EditSnippetForm
+        snippet={snippet}
+        open={isEditDialogOpen}
+        onOpenChange={setIsEditDialogOpen}
       />
 
       <SnippetDeleteDialog

@@ -5,7 +5,7 @@ import { eq } from "drizzle-orm";
 import { SnippetSchema } from "@/utils/z-schema/schema";
 import { isAuthorized } from "@/data/user/is-authorized";
 
-export async function POST(
+export async function PUT(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
@@ -44,7 +44,6 @@ export async function POST(
         description: parsedValues.description,
         language: parsedValues.language,
         command: parsedValues.command,
-        // add other fields as needed
       })
       .where(eq(snippetsTable.id, snippetId));
 

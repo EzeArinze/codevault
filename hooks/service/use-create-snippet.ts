@@ -1,6 +1,6 @@
-import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { api } from "@/lib/axios";
 
 type SnippetType = {
   id: string;
@@ -17,7 +17,7 @@ export function useAddSnippet() {
 
   return useMutation({
     mutationFn: async (initialData: Omit<SnippetType, "id">) => {
-      const response = await axios.post(`/api/snippets/create`, initialData, {
+      const response = await api.post(`/snippets/create`, initialData, {
         headers: { "Content-Type": "application/json" },
       });
       return response.data;
