@@ -1,46 +1,26 @@
-import { Dispatch, SetStateAction } from "react";
-import {
-  CommandDialog,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-  // CommandSeparator,
-} from "../../ui/command";
+"use client";
+
 import { useQueryState } from "nuqs";
-import { useHotkeyToggle } from "@/hooks/use-hot-key";
+import { Input } from "@/components/ui/input";
+import { useEffect, useState } from "react";
 
-interface DashboardSearchCommandProps {
-  open?: boolean;
-  setOpen?: Dispatch<SetStateAction<boolean>>;
-}
-
-export const DashboardSearchCommand = ({
-  open,
-  setOpen,
-}: DashboardSearchCommandProps) => {
+export const DashboardSearchCommand = () => {
   const [searchQuery, setSearchQuery] = useQueryState("q", {
     defaultValue: "",
   });
 
-  useHotkeyToggle(setOpen ?? (() => {}), "k", true);
+  const [inputValue, setInputValue] = useState(searchQuery);
+
+  useEffect(() => {
+    const handler = setTimeout(() => setSearchQuery(inputValue), 700);
+    return () => clearTimeout(handler);
+  }, [inputValue, setSearchQuery]);
 
   return (
-    <CommandDialog open={open} onOpenChange={setOpen}>
-      <CommandInput
-        placeholder="Type or search for your snippet..."
-        value={searchQuery}
-        onValueChange={setSearchQuery}
-      />
-      <CommandList>
-        <CommandEmpty>No results found.</CommandEmpty>
-        <CommandGroup heading="Suggestions">
-          <CommandItem>Calendar</CommandItem>
-          <CommandItem>Search Emoji</CommandItem>
-          <CommandItem>Calculator</CommandItem>
-        </CommandGroup>
-      </CommandList>
-    </CommandDialog>
+    <Input
+      placeholder="Search.."
+      value={inputValue}
+      onChange={(e) => setInputValue(e.target.value)}
+    />
   );
 };
