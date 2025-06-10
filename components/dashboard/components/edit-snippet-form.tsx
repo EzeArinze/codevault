@@ -20,6 +20,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { useUpdateSnippet } from "@/hooks/service/use-edit-snippet";
+import { SnippetSchema } from "@/utils/z-schema/schema";
 
 interface EditSnippetFormProps {
   snippet: SnippetObjectType;
@@ -39,10 +41,39 @@ export default function EditSnippetForm({
   const [category, setCategory] = useState(snippet.category?.name);
   const [installCommand, setInstallCommand] = useState(snippet.command);
 
-  const isSubmitting = false; // will be removed once i put in
+  const [error, setError] = useState<string | null>(null);
+
+  const { mutate: updateSnippet, isPending: isSubmitting } = useUpdateSnippet();
+
+  // const isSubmitting = false;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
+
+    const formDetails = {
+      title,
+      description,
+      code,
+      category,
+      language,
+      command: installCommand,
+    };
+    const result = SnippetSchema.safeParse(formDetails);
+
+    if (!result.success) {
+      setError(result.error.issues[0]?.message);
+      return;
+    }
+
+    updateSnippet(
+      { id: snippet.id, ...result.data },
+      {
+        onSuccess: () => {
+          onOpenChange?.(false);
+        },
+      }
+    );
   };
 
   const generateInstallCommand = () => {
@@ -133,6 +164,9 @@ export default function EditSnippetForm({
               onChange={(e) => setInstallCommand(e.target.value)}
             />
           </div>
+          {error ? (
+            <p className="text-red-400 h-4 font-medium">{error}</p>
+          ) : null}
           <div className="flex justify-end space-x-2">
             <Button
               type="button"
