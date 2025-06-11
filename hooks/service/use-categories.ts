@@ -1,9 +1,9 @@
-import { CategoryType } from "@/actions/get-snippets-categories";
 import { api } from "@/lib/axios";
+import { CategoryArrayType } from "@/utils/types";
 import { useQuery } from "@tanstack/react-query";
 
 export function useCategories() {
-  return useQuery<CategoryType>({
+  return useQuery<CategoryArrayType>({
     queryKey: ["categories"],
     queryFn: async () => {
       const res = await api.get("/categories");
