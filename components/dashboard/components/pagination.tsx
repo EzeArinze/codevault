@@ -1,4 +1,3 @@
-import { Loader2 } from "lucide-react";
 import { parseAsInteger, useQueryState } from "nuqs";
 import React from "react";
 
@@ -45,13 +44,12 @@ function Pagination({
         disabled={isPlaceholderData || !hasMore || isFetching}
         className={`px-4 py-2 rounded-md border text-sm font-medium flex items-center gap-2 transition-colors
           ${
-            isPlaceholderData || !hasMore
+            isPlaceholderData || !hasMore || isFetching
               ? "bg-muted text-muted-foreground cursor-not-allowed opacity-60"
               : "bg-background hover:bg-accent border-accent text-primary"
           }
         `}
       >
-        {isFetching && <Loader2 className="animate-spin w-4 h-4" />}
         Next
       </button>
     </div>

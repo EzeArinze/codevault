@@ -1,15 +1,15 @@
 "use client";
 import React from "react";
 
-import { PlusCircle } from "lucide-react";
+import { Loader2, PlusCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
 import { useQueryState } from "nuqs";
 import SnippetCard from "../snippet-card/snippet-card";
-import Loading from "./loading";
+// import Loading from "./loading";
 import { useSnippets } from "@/hooks/service/use-snippets";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import Pagination from "./pagination";
+import { SnippetCardSkeleton } from "./snippet-card-skeleton";
 
 interface DashboardContentProps {
   onCreateSnippet: () => void;
@@ -37,7 +37,7 @@ export default function DashboardContent({
     defaultValue: "all",
   });
 
-  const snippet_length = snippets?.data.length;
+  const snippetLength = snippets?.data.length || 0;
 
   return (
     <>
@@ -47,21 +47,30 @@ export default function DashboardContent({
         </Alert>
       )}
 
-      <div className="flex gap-2 mb-4">
-        {filterOptions.map((filter) => (
-          <Button
-            key={filter.value}
-            variant={filterState === filter.value ? "default" : "outline"}
-            onClick={() => setFilterState(filter.value)}
-          >
-            {filter.label}
-          </Button>
-        ))}
+      {/* Filter buttons */}
+      <div className="flex justify-between items-center">
+        <div className="flex gap-2 mb-4">
+          {filterOptions.map((filter) => (
+            <Button
+              key={filter.value}
+              variant={filterState === filter.value ? "default" : "outline"}
+              onClick={() => setFilterState(filter.value)}
+            >
+              {filter.label}
+            </Button>
+          ))}
+        </div>
+
+        {/* Subtle loader for background fetches */}
+        {isFetching && !isLoading && (
+          <Loader2 className="h-4 w-4 bg-primary/10 animate-spin rounded mb-4" />
+        )}
       </div>
 
-      {isLoading || isFetching ? <Loading message="Loading Snippet" /> : null}
-
-      {snippet_length === 0 && !isLoading ? (
+      {/* Initial loading */}
+      {isLoading ? (
+        <SnippetCardSkeleton />
+      ) : snippetLength === 0 ? (
         <EmptyState
           message={
             filterState === "all"
@@ -74,26 +83,33 @@ export default function DashboardContent({
           onCreateSnippet={onCreateSnippet}
         />
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-          {snippets?.data.map((snippet) => (
-            <SnippetCard key={snippet.id} snippet={snippet} />
-          ))}
-        </div>
+        <>
+          {/* Snippet grid with optional dimming */}
+          <div
+            className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 transition-opacity ${
+              isPlaceholderData ? "opacity-50 pointer-events-none" : ""
+            }`}
+          >
+            {snippets?.data.map((snippet) => (
+              <SnippetCard key={snippet.id} snippet={snippet} />
+            ))}
+          </div>
+        </>
       )}
 
-      <div>
-        {snippet_length === 0 ? null : (
-          <Pagination
-            isFetching={isFetching}
-            isPlaceholderData={isPlaceholderData}
-            hasMore={snippets?.hasMore}
-          />
-        )}
-      </div>
+      {/* Pagination */}
+      {snippetLength > 0 && (
+        <Pagination
+          isFetching={isFetching}
+          isPlaceholderData={isPlaceholderData}
+          hasMore={snippets?.hasMore}
+        />
+      )}
     </>
   );
 }
 
+// Empty Component
 const EmptyState = React.memo(function EmptyState({
   message,
   showButton = false,
