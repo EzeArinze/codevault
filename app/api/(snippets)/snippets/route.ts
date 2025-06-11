@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db";
-import { and, desc, eq, ilike } from "drizzle-orm";
+import { and, desc, eq, ilike, sql } from "drizzle-orm";
 import { snippetsTable } from "@/db/schema";
 import { SearchParamsValues } from "@/server/nuqs-server";
 import { isAuthorized } from "@/data/user/is-authorized";
@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
   const { q, filter, categoryId, limit, offset } = SearchParamsValues(req);
 
   const filterValue = (filter as FilterType) ?? "all";
-  const parsedLimit = limit ? parseInt(limit, 10) : undefined;
+  const parsedLimit = limit ? parseInt(limit, 10) : 10;
   const parsedOffset = offset ? parseInt(offset, 10) : undefined;
 
   const session = await isAuthorized();
@@ -55,7 +55,18 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    return NextResponse.json(snippets);
+    const totalCount = await db
+      .select({ count: sql`count(*)` })
+      .from(snippetsTable)
+      .where(whereClause)
+      .then((res) => Number(res[0]?.count || 0));
+
+    const hasMore = (parsedOffset ?? 0) + parsedLimit < totalCount;
+
+    return NextResponse.json({
+      data: snippets,
+      hasMore,
+    });
   } catch (err) {
     console.error("Failed to fetch snippets:", err);
     return NextResponse.json(

@@ -9,6 +9,7 @@ import SnippetCard from "../snippet-card/snippet-card";
 import Loading from "./loading";
 import { useSnippets } from "@/hooks/service/use-snippets";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import Pagination from "./pagination";
 
 interface DashboardContentProps {
   onCreateSnippet: () => void;
@@ -23,19 +24,29 @@ const filterOptions = [
 export default function DashboardContent({
   onCreateSnippet,
 }: DashboardContentProps) {
-  const { data: snippets, isError: error, isLoading } = useSnippets();
+  const {
+    data: snippets,
+    isError: error,
+    error: errorMessage,
+    isLoading,
+    isFetching,
+    isPlaceholderData,
+  } = useSnippets();
 
   const [filterState, setFilterState] = useQueryState("filter", {
     defaultValue: "all",
   });
 
+  const snippet_length = snippets?.data.length;
+
   return (
     <>
       {error && (
         <Alert variant="destructive" className="mb-4">
-          <AlertDescription>{error}</AlertDescription>
+          <AlertDescription>{errorMessage.message}</AlertDescription>
         </Alert>
       )}
+
       <div className="flex gap-2 mb-4">
         {filterOptions.map((filter) => (
           <Button
@@ -48,8 +59,9 @@ export default function DashboardContent({
         ))}
       </div>
 
-      {isLoading ? <Loading message="Loading Snippet" /> : null}
-      {snippets?.length === 0 && !isLoading ? (
+      {isLoading || isFetching ? <Loading message="Loading Snippet" /> : null}
+
+      {snippet_length === 0 && !isLoading ? (
         <EmptyState
           message={
             filterState === "all"
@@ -63,11 +75,21 @@ export default function DashboardContent({
         />
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-          {snippets?.map((snippet) => (
+          {snippets?.data.map((snippet) => (
             <SnippetCard key={snippet.id} snippet={snippet} />
           ))}
         </div>
       )}
+
+      <div>
+        {snippet_length === 0 ? null : (
+          <Pagination
+            isFetching={isFetching}
+            isPlaceholderData={isPlaceholderData}
+            hasMore={snippets?.hasMore}
+          />
+        )}
+      </div>
     </>
   );
 }

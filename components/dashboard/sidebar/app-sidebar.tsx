@@ -1,6 +1,5 @@
 "use client";
 
-
 import CreateSnippet from "./create-snippet";
 
 import {
@@ -20,6 +19,7 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { Suspense } from "react";
+import { useIsClient } from "@/hooks/use-is-client";
 
 const teams = [
   {
@@ -30,6 +30,10 @@ const teams = [
 ];
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const client = useIsClient();
+
+  if (!client) return null;
+
   return (
     <Sidebar collapsible="icon" {...props}>
       {/* Header */}
@@ -39,8 +43,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       {/* Body/Content */}
       <SidebarContent>
         <CreateSnippet />
-        <Suspense>  
-        <NavCategories />
+        <Suspense>
+          <NavCategories />
         </Suspense>
         <NavTemplate />
       </SidebarContent>
