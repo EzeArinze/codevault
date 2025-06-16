@@ -1,17 +1,22 @@
 "use client";
 // import { useState } from "react";
 
-import Link from "next/link";
+// import Link from "next/link";
 import { ModeToggle } from "../../toogle-theme";
 
 import { Separator } from "../../ui/separator";
 import { SidebarTrigger } from "../../ui/sidebar";
-import { buttonVariants } from "../../ui/button";
+import {
+  Button,
+  //  buttonVariants
+} from "../../ui/button";
 import { StarsIcon } from "lucide-react";
 import { DashboardSearchCommand } from "./dashboard-search-cmd";
+import { useState } from "react";
+import AIGenerateDialog from "@/components/generate-code/generate-code-dialog";
 
 function DashboardHeader() {
-  // const [openCommand, setOpenCommand] = useState(false);
+  const [openAiGenerate, setOpenAiGenerate] = useState(false);
 
   return (
     <>
@@ -32,12 +37,21 @@ function DashboardHeader() {
         </div>
         <div className="flex items-center gap-2">
           <ModeToggle />
-          <Link href={"/dashboard/generate"} className={buttonVariants()}>
+          {/* <Link href={"/dashboard/generate"} className={buttonVariants()}>
             <StarsIcon className="w-3 h-3" />
             Ai<span className="hidden sm:block">Generate</span>
-          </Link>
+          </Link> */}
+          <Button onClick={() => setOpenAiGenerate((prev) => !prev)}>
+            <StarsIcon className="w-3 h-3" />
+            Ai<span className="hidden sm:block">Generate</span>
+          </Button>
         </div>
       </header>
+
+      <AIGenerateDialog
+        onOpenChange={setOpenAiGenerate}
+        open={openAiGenerate}
+      />
     </>
   );
 }

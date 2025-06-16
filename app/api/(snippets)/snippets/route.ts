@@ -2,70 +2,58 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db";
 import { and, desc, eq, ilike, sql } from "drizzle-orm";
 import { snippetsTable } from "@/db/schema";
-import { SearchParamsValues } from "@/server/nuqs-server";
+// import { SearchParamsValues } from "@/server/nuqs-server";
 import { isAuthorized } from "@/data/user/is-authorized";
 
 export type FilterType = "all" | "recent" | "favorites";
 
 export async function GET(req: NextRequest) {
-  const { q, filter, categoryId, limit, offset } = SearchParamsValues(req);
+  const url = new URL(req.url);
+  const q = url.searchParams.get("q")?.trim();
+  const filter = url.searchParams.get("filter") ?? "all";
+  const categoryId = url.searchParams.get("categoryId");
+  const limit = parseInt(url.searchParams.get("limit") || "6");
+  const offset = parseInt(url.searchParams.get("offset") || "0");
 
-  const filterValue = (filter as FilterType) ?? "all";
-  const parsedLimit = limit ? parseInt(limit, 10) : 10;
-  const parsedOffset = offset ? parseInt(offset, 10) : undefined;
-
-  const session = await isAuthorized();
-
-  if (!session) {
+  const user = await isAuthorized();
+  if (!user) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 
-  const conditions = [eq(snippetsTable.user_id, session.id)];
+  const conditions = [eq(snippetsTable.user_id, user.id)];
 
-  // Map-based logic for filters
-  const filterLogic: Record<FilterType, () => void> = {
-    favorites: () => conditions.push(eq(snippetsTable.favorite, true)),
-    recent: () => {},
-    all: () => {},
-  };
-
-  // Execute filter logic
-  (filterLogic[filterValue] || (() => {}))();
-
-  if (categoryId) {
-    conditions.push(eq(snippetsTable.category_id, categoryId));
+  if (filter === "favorites") {
+    conditions.push(eq(snippetsTable.favorite, true));
   }
 
   if (q) {
     conditions.push(ilike(snippetsTable.title, `%${q}%`));
   }
 
+  if (categoryId) {
+    conditions.push(eq(snippetsTable.category_id, categoryId));
+  }
+
   const whereClause = and(...conditions);
-  const orderBy =
-    filter === "recent" ? desc(snippetsTable.created_at) : undefined;
 
   try {
     const snippets = await db.query.snippetsTable.findMany({
       where: whereClause,
-      ...(orderBy && { orderBy }),
-      ...(parsedLimit && { limit: parsedLimit }),
-      ...(parsedOffset && { offset: parsedOffset }),
-      with: {
-        category: true,
-      },
+      with: { category: true },
+      orderBy: desc(snippetsTable.created_at),
+      limit,
+      offset,
     });
 
-    const totalCount = await db
-      .select({ count: sql`count(*)` })
+    const count = await db
+      .select({ count: sql<number>`count(*)` })
       .from(snippetsTable)
       .where(whereClause)
-      .then((res) => Number(res[0]?.count || 0));
-
-    const hasMore = (parsedOffset ?? 0) + parsedLimit < totalCount;
+      .then((res) => Number(res[0].count));
 
     return NextResponse.json({
       data: snippets,
-      hasMore,
+      hasMore: offset + limit < count,
     });
   } catch (err) {
     console.error("Failed to fetch snippets:", err);

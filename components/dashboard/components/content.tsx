@@ -8,7 +8,7 @@ import SnippetCard from "../snippet-card/snippet-card";
 // import Loading from "./loading";
 import { useSnippets } from "@/hooks/service/use-snippets";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import Pagination from "./pagination";
+import { Pagination } from "./pagination";
 import { SnippetCardSkeleton } from "./snippet-card-skeleton";
 
 interface DashboardContentProps {
@@ -90,7 +90,7 @@ export default function DashboardContent({
               isPlaceholderData ? "opacity-50 pointer-events-none" : ""
             }`}
           >
-            {snippets?.data.map((snippet) => (
+            {snippets?.data?.map((snippet) => (
               <SnippetCard key={snippet.id} snippet={snippet} />
             ))}
           </div>
@@ -125,7 +125,7 @@ const EmptyState = React.memo(function EmptyState({
       {showButton && (
         <Button onClick={onCreateSnippet}>
           <PlusCircle className="h-4 w-4 mr-2" />
-          Create your first snippet
+          Create snippet
         </Button>
       )}
     </div>

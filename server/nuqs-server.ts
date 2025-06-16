@@ -9,7 +9,7 @@ export const coordinatesSearchParams = {
   filter: parseAsString.withDefault("all"),
   categoryId: parseAsString.withDefault(""),
   q: parseAsString.withDefault(""),
-  limit: parseAsString.withDefault("10"),
+  limit: parseAsString.withDefault("6"),
   offset: parseAsString.withDefault("0"),
 };
 

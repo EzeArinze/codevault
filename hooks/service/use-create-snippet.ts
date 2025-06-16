@@ -3,7 +3,7 @@ import { toast } from "sonner";
 import { api } from "@/lib/axios";
 
 type SnippetType = {
-  id: string;
+  id?: string;
   title: string;
   description: string;
   language: string;
@@ -16,51 +16,56 @@ export function useAddSnippet() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (initialData: Omit<SnippetType, "id">) => {
-      const response = await api.post(`/snippets/create`, initialData, {
-        headers: { "Content-Type": "application/json" },
-      });
-      return response.data;
-    },
-
-    // Optimistic update
-    onMutate: async (newSnippet) => {
-      await queryClient.cancelQueries({ queryKey: ["snippets"], exact: false });
-
-      // Store previous data for rollback
-      const previousSnippetsQueries = queryClient.getQueriesData<SnippetType[]>(
+    mutationFn: async (snippetData: SnippetType) => {
+      const { data } = await api.post<{ data: SnippetType }>(
+        "/snippets/create",
+        snippetData,
         {
-          queryKey: ["snippets"],
+          headers: { "Content-Type": "application/json" },
         }
       );
-
-      // Optimistically update each matching snippet query
-      const optimisticSnippet = {
-        ...newSnippet,
-        id: `temp-${Date.now()}`,
-      };
-
-      previousSnippetsQueries.forEach(([key]) => {
-        queryClient.setQueryData<SnippetType[]>(key, (old) =>
-          old ? [...old, optimisticSnippet] : [optimisticSnippet]
-        );
-      });
-
-      return { previousSnippetsQueries, tempId: optimisticSnippet.id };
+      return data.data;
     },
 
-    onSuccess: () => {
-      // Refetch all snippet queries
-      queryClient.invalidateQueries({ queryKey: ["snippets"], exact: false });
+    onMutate: async (newSnippet) => {
+      await queryClient.cancelQueries({ queryKey: ["snippets"] });
+
+      const previousData = queryClient.getQueryData<SnippetType[]>([
+        "snippets",
+      ]);
+
+      const tempId = `temp-${Date.now()}`;
+      const optimisticSnippet: SnippetType = {
+        ...newSnippet,
+        id: tempId,
+      };
+
+      queryClient.setQueryData<SnippetType[]>(["snippets"], (old = []) => [
+        ...old,
+        optimisticSnippet,
+      ]);
+
+      return { previousData, tempId };
+    },
+
+    onSuccess: (savedSnippet, _vars, context) => {
+      queryClient.setQueryData<SnippetType[]>(["snippets"], (old = []) =>
+        old.map((s) => (s.id === context?.tempId ? savedSnippet : s))
+      );
+
       toast.success("Snippet added successfully");
     },
 
     onError: (_error, _vars, context) => {
       toast.error("Failed to add snippet");
-      // Rollback to previous data
-      context?.previousSnippetsQueries?.forEach(([key, data]) => {
-        queryClient.setQueryData(key, data);
-      });
+
+      if (context?.previousData) {
+        queryClient.setQueryData(["snippets"], context.previousData);
+      }
+    },
+
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["snippets"] });
     },
   });
 }

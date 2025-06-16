@@ -40,22 +40,29 @@ export default function CreateSnippetDialog({
   ) => {
     const { name, value } = event.target;
     setFormDetails((prev) => ({ ...prev, [name]: value }));
+    if (error) setError(null);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("Submitting...");
 
+    setError(null);
     const result = SnippetSchema.safeParse(formDetails);
 
     if (!result.success) {
-      setError(result.error.issues[0]?.message);
+      console.log("Zod validation failed:", result.error.issues);
+      setError(result.error.issues[0]?.message ?? "Validation failed");
       return;
     }
 
-    addSnippet(formDetails, {
+    addSnippet(result.data, {
       onSuccess: () => {
         setFormDetails(initialFormDetails);
         onOpenChange?.(false);
+      },
+      onError: (error) => {
+        console.error("Request failed:", error);
       },
     });
   };
@@ -148,8 +155,8 @@ export default function CreateSnippetDialog({
                 </Button>
               </div>
               <Input
-                id="installCommand"
-                name="installCommand"
+                id="command"
+                name="command"
                 placeholder="npx add utils/my-util.ts"
                 value={formDetails.command}
                 onChange={onChange}
