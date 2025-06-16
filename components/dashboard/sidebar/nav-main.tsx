@@ -90,9 +90,8 @@ export function NavCategories() {
                             variant={
                               category === subItem.id ? "outline" : "ghost"
                             }
-                            className={
-                              category === subItem.id ? "text-primary" : ""
-                            }
+                            className={`w-full justify-start 
+                             ${category === subItem.id ? "text-primary" : ""}`}
                             onClick={() => setCategory(subItem.id)}
                           >
                             {subItem.name}
