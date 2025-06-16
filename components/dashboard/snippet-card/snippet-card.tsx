@@ -34,7 +34,7 @@ export default function SnippetCard({ snippet }: SnippetCardProps) {
 
   return (
     <>
-      <Card className="overflow-hidden ">
+      <Card className="overflow-hidden h-[30%]">
         <CardHeader className="pb-3">
           <MemoSnippetCardHeader
             onView={() => setIsViewOpen(true)}
@@ -54,7 +54,7 @@ export default function SnippetCard({ snippet }: SnippetCardProps) {
               {snippet.category?.name}
             </Badge>
           </div>
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="text-sm text-muted-foreground mt-1 truncate">
             {snippet.description}
           </p>
         </CardHeader>

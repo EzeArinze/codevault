@@ -46,7 +46,7 @@ function CodeResult({
           handleClose();
         },
         onError: (error) => {
-          console.error("Request failed:", error);
+          console.error("Request failed:", error.message);
         },
       });
       console.log(generatedSnippet);

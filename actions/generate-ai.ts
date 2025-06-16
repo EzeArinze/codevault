@@ -93,7 +93,7 @@ Generate a practical, well-structured code snippet that solves this requirement.
       code: generated.code || "// Code generation failed",
       command:
         generated.command ||
-        `npx create-file ${generated.category || category}/${(generated.title || "snippet").toLowerCase().replace(/\s+/g, "-")}.${generated.language === "typescript" ? "ts" : "js"}`,
+        `npx add ${generated.category || category}/${(generated.title || "snippet").toLowerCase().replace(/\s+/g, "-")}.${generated.language === "typescript" ? "ts" : "js"}`,
     };
   } catch (error) {
     console.error("AI generation error:", error);

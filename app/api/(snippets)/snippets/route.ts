@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db";
-import { and, desc, eq, ilike, sql } from "drizzle-orm";
+import { and, desc, eq, gte, ilike, sql } from "drizzle-orm";
 import { snippetsTable } from "@/db/schema";
-// import { SearchParamsValues } from "@/server/nuqs-server";
 import { isAuthorized } from "@/data/user/is-authorized";
 
 export type FilterType = "all" | "recent" | "favorites";
@@ -13,7 +12,8 @@ export async function GET(req: NextRequest) {
   const filter = url.searchParams.get("filter") ?? "all";
   const categoryId = url.searchParams.get("categoryId");
   const limit = parseInt(url.searchParams.get("limit") || "6");
-  const offset = parseInt(url.searchParams.get("offset") || "0");
+  const page = parseInt(url.searchParams.get("offset") || "0"); // This is actually the page number
+  const offset = page * limit; // ✅ Convert page to row offset for database query
 
   const user = await isAuthorized();
   if (!user) {
@@ -24,6 +24,12 @@ export async function GET(req: NextRequest) {
 
   if (filter === "favorites") {
     conditions.push(eq(snippetsTable.favorite, true));
+  }
+
+  if (filter === "recent") {
+    const aDayAgo = new Date();
+    aDayAgo.setDate(aDayAgo.getDate() - 1);
+    conditions.push(gte(snippetsTable.created_at, aDayAgo));
   }
 
   if (q) {

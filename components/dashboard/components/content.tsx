@@ -4,12 +4,13 @@ import React from "react";
 import { Loader2, PlusCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useQueryState } from "nuqs";
-import SnippetCard from "../snippet-card/snippet-card";
+
 // import Loading from "./loading";
 import { useSnippets } from "@/hooks/service/use-snippets";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Pagination } from "./pagination";
 import { SnippetCardSkeleton } from "./snippet-card-skeleton";
+import SnippetCard from "../snippet-card/snippet-card";
 
 interface DashboardContentProps {
   onCreateSnippet: () => void;
