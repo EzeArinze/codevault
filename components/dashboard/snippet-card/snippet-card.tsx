@@ -34,7 +34,7 @@ export default function SnippetCard({ snippet }: SnippetCardProps) {
 
   return (
     <>
-      <Card className="overflow-hidden h-[30%]">
+      <Card className="overflow-hidden">
         <CardHeader className="pb-3">
           <MemoSnippetCardHeader
             onView={() => setIsViewOpen(true)}
