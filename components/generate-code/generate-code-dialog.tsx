@@ -83,7 +83,7 @@ export default function AIGenerateDialog({
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="w-[70vw] sm:max-w-4xl max-h-[60vh] overflow-hidden flex flex-col">
+      <DialogContent className="w-[90vw] sm:max-w-4xl max-h-[60vh] overflow-hidden flex flex-col">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Sparkles className="h-5 w-5 text-primary" />

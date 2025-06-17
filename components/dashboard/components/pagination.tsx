@@ -16,7 +16,7 @@ export function Pagination({
   );
 
   return (
-    <div className="flex items-center justify-center gap-6 mt-8 pt-4">
+    <div className="flex items-center justify-center gap-6 mt-8 pt-2">
       <button
         onClick={() => setPage(Math.max(page - 1, 0))}
         disabled={page === 0}
