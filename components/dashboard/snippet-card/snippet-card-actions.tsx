@@ -57,7 +57,11 @@ export default function SnippetCardActions({
                 size="icon"
                 className="h-8 w-8"
                 onClick={() =>
-                  copyToClipboard(snippet.command, "Install command copied!")
+                  // "Install command copied!"
+                  copyToClipboard(
+                    snippet.command,
+                    "Install command cli coming soon!"
+                  )
                 }
               >
                 <Terminal className="h-4 w-4" />
