@@ -17,20 +17,23 @@ export function useAddSnippet() {
 
   return useMutation({
     mutationFn: async (snippetData: SnippetType) => {
-      const { data } = await api.post<{ data: SnippetType }>(
+      const { data } = await api.post<SnippetType>(
         "/snippets/create",
         snippetData,
         {
           headers: { "Content-Type": "application/json" },
         }
       );
-      return data.data;
+      return data;
     },
 
     onMutate: async (newSnippet) => {
-      await queryClient.cancelQueries({ queryKey: ["snippets"] });
+      await Promise.all([
+        queryClient.cancelQueries({ queryKey: ["snippets"] }),
+        queryClient.cancelQueries({ queryKey: ["categories"] }),
+      ]);
 
-      const previousData = queryClient.getQueryData<SnippetType[]>([
+      const previousSnippets = queryClient.getQueryData<SnippetType[]>([
         "snippets",
       ]);
 
@@ -45,7 +48,7 @@ export function useAddSnippet() {
         optimisticSnippet,
       ]);
 
-      return { previousData, tempId };
+      return { previousSnippets, tempId };
     },
 
     onSuccess: (savedSnippet, _vars, context) => {
@@ -56,16 +59,22 @@ export function useAddSnippet() {
       toast.success("Snippet added successfully");
     },
 
-    onError: (_error, _vars, context) => {
-      toast.error("Failed to add snippet");
+    onError: (error, _vars, context) => {
+      // More specific error handling
+      const errorMessage =
+        error instanceof Error ? error.message : "Failed to add snippet";
 
-      if (context?.previousData) {
-        queryClient.setQueryData(["snippets"], context.previousData);
+      toast.error(errorMessage);
+
+      // Rollback both snippets and categories if needed
+      if (context?.previousSnippets !== undefined) {
+        queryClient.setQueryData(["snippets"], context.previousSnippets);
       }
     },
 
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["snippets", "categories"] });
+      queryClient.invalidateQueries({ queryKey: ["snippets"] });
+      queryClient.invalidateQueries({ queryKey: ["categories"] });
     },
   });
 }
