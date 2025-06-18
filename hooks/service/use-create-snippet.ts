@@ -60,7 +60,6 @@ export function useAddSnippet() {
     },
 
     onError: (error, _vars, context) => {
-      // More specific error handling
       const errorMessage =
         error instanceof Error ? error.message : "Failed to add snippet";
 

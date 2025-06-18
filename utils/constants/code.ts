@@ -24,7 +24,7 @@ export const categoryOptions = [
   { label: "Hooks", value: "hooks" },
   { label: "Utils", value: "utils" },
   { label: "Components", value: "components" },
-  { label: "Service", value: "service" },
+  { label: "Services", value: "services" },
   { label: "Api's", value: "api" },
   { label: "Styles", value: "style" },
   { label: "Config", value: "config" },

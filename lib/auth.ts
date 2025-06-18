@@ -21,11 +21,13 @@ export const auth = betterAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     },
   },
-
   database: drizzleAdapter(db, {
     provider: "pg",
     schema: {
-      ...schema,
+      account: schema.account,
+      session: schema.session,
+      user: schema.user,
+      verification: schema.verification,
     },
   }),
   plugins: [nextCookies()],
