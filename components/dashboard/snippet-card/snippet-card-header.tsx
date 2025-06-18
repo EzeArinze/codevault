@@ -55,7 +55,9 @@ export default function SnippetCardHeader({
 
   return (
     <div className="flex justify-between items-start">
-      <CardTitle className="text-lg font-bold">{snippet.title}</CardTitle>
+      <CardTitle className="text-lg font-bold line-clamp-1">
+        {snippet.title}
+      </CardTitle>
       <div className="flex gap-1">
         <TooltipProvider>
           <Tooltip>

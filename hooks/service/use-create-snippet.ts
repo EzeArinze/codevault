@@ -65,7 +65,7 @@ export function useAddSnippet() {
     },
 
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["snippets"] });
+      queryClient.invalidateQueries({ queryKey: ["snippets", "categories"] });
     },
   });
 }
