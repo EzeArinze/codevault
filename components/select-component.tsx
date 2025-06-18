@@ -6,6 +6,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Label } from "./ui/label";
+import { cn } from "@/lib/utils";
 
 interface Option {
   label: string;
@@ -17,6 +18,7 @@ interface SelectProps extends React.ComponentProps<typeof Select> {
   id?: string;
   label?: string;
   placeholder?: string;
+  className?: string;
 }
 
 function SelectComponent({
@@ -24,13 +26,14 @@ function SelectComponent({
   id,
   label,
   placeholder,
+  className,
   ...props
 }: SelectProps) {
   return (
-    <div className="grid gap-2">
+    <div className={cn("grid gap-2", className)}>
       {label && <Label htmlFor={id || "select"}>{label}</Label>}
       <Select {...props}>
-        <SelectTrigger id={id || "select"}>
+        <SelectTrigger id={id || "select"} className={cn(className)}>
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent>

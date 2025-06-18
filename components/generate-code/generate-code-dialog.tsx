@@ -83,15 +83,15 @@ export default function AIGenerateDialog({
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="w-[90vw] sm:max-w-4xl max-h-[60vh] overflow-hidden flex flex-col">
+      <DialogContent className=" sm:max-w-4xl max-h-[60vh] overflow-auto flex flex-col">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Sparkles className="h-5 w-5 text-primary" />
-            AI Code Generator
+            AI Snippet Generator
           </DialogTitle>
           <DialogDescription>
-            Describe what you want to build and AI will generate the code for
-            you.
+            Describe the snippet you want to build and AI will generate the code
+            for you.
           </DialogDescription>
         </DialogHeader>
 
@@ -110,7 +110,7 @@ export default function AIGenerateDialog({
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-4 w-[30%]">
+              <div className="grid grid-cols-2 gap-4">
                 <SelectComponent
                   id="language"
                   placeholder="Select language"
@@ -118,6 +118,7 @@ export default function AIGenerateDialog({
                   values={languageOptions}
                   value={language}
                   onValueChange={(value) => setLanguage(value)}
+                  className="w-full"
                 />
 
                 <SelectComponent
@@ -127,6 +128,7 @@ export default function AIGenerateDialog({
                   values={categoryOptions}
                   value={category}
                   onValueChange={(value) => setCategory(value)}
+                  className="w-full"
                 />
               </div>
             </div>
