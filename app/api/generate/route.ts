@@ -1,7 +1,5 @@
-import {
-  generateCodeSnippet,
-  type GenerateSnippetRequest,
-} from "@/actions/generate-ai";
+import { generateCodeSnippet } from "@/actions/generate-ai";
+import { GenerateSnippetRequest } from "@/utils/types";
 import { type NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
