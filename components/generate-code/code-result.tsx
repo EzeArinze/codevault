@@ -102,7 +102,6 @@ function CodeResult({
               <div className="flex items-center gap-2">
                 <Input
                   value={generatedSnippet.command}
-                  readOnly
                   className="font-mono text-sm"
                 />
                 <Button
