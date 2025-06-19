@@ -63,3 +63,18 @@ export type createSnipReturnType = {
   status: "SUCCESS" | "ERROR";
   message: string;
 };
+
+export interface GenerateSnippetRequest {
+  prompt: string;
+  language?: string;
+  category?: string;
+}
+
+export interface GeneratedSnippet {
+  title: string;
+  description: string;
+  code: string;
+  language: string;
+  category: string;
+  command: string;
+}
