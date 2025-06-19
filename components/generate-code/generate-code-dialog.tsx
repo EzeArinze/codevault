@@ -68,6 +68,7 @@ export default function AIGenerateDialog({
       toast.error("Generation failed", {
         description:
           error instanceof Error ? error.message : "Please try again.",
+        duration: 1000,
       });
     } finally {
       setIsGenerating(false);

@@ -4,7 +4,7 @@ import { generateText } from "ai";
 import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 // import { createOpenAI } from "@ai-sdk/openai";
 
-const MODEL = process.env.OPEN_ROUTER_MODEL as string;
+// const MODEL = process.env.OPEN_ROUTER_MODEL as string;
 
 // const openrouter = createOpenAI({
 //   apiKey: process.env.OPENROUTER_API_KEY as string,
@@ -12,7 +12,7 @@ const MODEL = process.env.OPEN_ROUTER_MODEL as string;
 // });
 
 const openrouter = createOpenRouter({
-  apiKey: process.env.OPENROUTER_API_KEY,
+  apiKey: process.env.OPENROUTER_API_KEY as string,
 });
 
 export interface GenerateSnippetRequest {
@@ -51,7 +51,7 @@ Response format (JSON):
   "code": "The actual code snippet",
   "language": "programming language",
   "category": "appropriate category (hooks, utils, components, services, config, styles)",
-  "installCommand": "npx create-file command for this snippet"
+  "installCommand": "npx add command for this snippet"
 }
 
 Categories:
@@ -73,7 +73,7 @@ Generate a practical, well-structured code snippet that solves this requirement.
 
   try {
     const { text } = await generateText({
-      model: openrouter(MODEL),
+      model: openrouter("google/gemini-2.0-flash-exp:free"),
       system: systemPrompt,
       prompt: userPrompt,
       temperature: 0.7,
