@@ -108,86 +108,40 @@ export async function generateCodeSnippet(
 ): Promise<GeneratedSnippet> {
   const { prompt, language = "typescript", category = "utils" } = request;
 
-  const systemPrompt = `You are an expert software developer. Generate a code snippet based on the user's request.
+  return withRetry(async () => {
+    try {
+      const { text } = await generateText({
+        model: openrouter("google/gemini-2.0-flash-exp:free"),
+        messages: [
+          {
+            role: "system",
+            content:
+              "You are a code generation assistant. Always respond with valid JSON only.",
+          },
+          {
+            role: "user",
+            content: `Generate a ${language} code snippet for: ${prompt}
 
-CRITICAL: You must respond with ONLY valid JSON in this exact format:
+Return JSON with: title, description, code, language, category, command fields.`,
+          },
+        ],
+        temperature: 0.3,
+        maxTokens: 1500,
+      });
 
-{
-  "title": "Brief descriptive title (max 50 chars)",
-  "description": "What the code does (max 150 chars)", 
-  "code": "The actual code snippet with proper escaping",
-  "language": "programming language",
-  "category": "appropriate category",
-  "command": "npx add command for this snippet"
-}
+      const generated = extractJSON(text);
 
-Rules:
-1. Generate clean, well-documented, production-ready code
-2. Include proper TypeScript types when applicable
-3. Follow best practices and modern conventions
-4. Make the code reusable and modular
-5. Add helpful comments where needed
-6. Properly escape quotes and newlines in the "code" field
-7. RESPOND WITH ONLY THE JSON OBJECT - NO OTHER TEXT
-
-Categories: hooks, utils, components, services, config, styles
-Languages: typescript, javascript, jsx, tsx, css, html, python, etc.`;
-
-  const userPrompt = `Create a ${language} code snippet for: ${prompt}
-
-Preferred category: ${category}
-Language: ${language}
-
-Remember: Return ONLY the JSON object, no explanations or code blocks.`;
-
-  return withRetry(
-    async () => {
-      try {
-        const { text } = await generateText({
-          model: openrouter("google/gemini-2.0-flash-exp:free"),
-          system: systemPrompt,
-          prompt: userPrompt,
-          temperature: 0.3, // Lower temperature for more consistent output
-          maxTokens: 2000,
-        });
-
-        // Robust JSON parsing
-        const generated = extractJSON(text);
-
-        // Validate required fields
-        if (!generated.title || !generated.code) {
-          throw new Error("Missing required fields in AI response");
-        }
-
-        // Return with proper defaults and validation
-        return {
-          title: String(generated.title).slice(0, 50) || "Generated Snippet",
-          description: String(
-            generated.description || "AI generated code snippet"
-          ).slice(0, 150),
-          language: generated.language || language,
-          category: generated.category || category,
-          code: generated.code || "// Code generation failed",
-          command:
-            generated.command ||
-            `npx add ${generated.category || category}/${(
-              generated.title || "snippet"
-            )
-              .toLowerCase()
-              .replace(/\s+/g, "-")
-              .replace(
-                /[^a-z0-9-]/g,
-                ""
-              )}.${generated.language === "typescript" ? "ts" : "js"}`,
-        };
-      } catch (parseError) {
-        console.error("JSON parsing failed:", parseError);
-        throw new Error(
-          `Failed to parse AI response: ${parseError instanceof Error ? parseError.message : "Unknown error"}`
-        );
-      }
-    },
-    3,
-    1000
-  );
+      return {
+        title: generated.title || "Generated Snippet",
+        description: generated.description || "AI generated code snippet",
+        language: generated.language || language,
+        category: generated.category || category,
+        code: generated.code || "// Code generation failed",
+        command: generated.command || `npx add snippet`,
+      };
+    } catch (error) {
+      console.error("Structured generation failed:", error);
+      throw new Error("Failed to generate structured code snippet");
+    }
+  });
 }
