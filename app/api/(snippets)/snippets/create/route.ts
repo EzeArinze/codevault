@@ -31,8 +31,13 @@ export async function POST(req: NextRequest) {
     }
 
     // Find or create category
+    // Find category by name + user ID
     let category = await db.query.categoriesTable.findFirst({
-      where: (categories, { eq }) => eq(categories.name, parsedValues.category),
+      where: (categories, { and, eq }) =>
+        and(
+          eq(categories.name, parsedValues.category),
+          eq(categories.user_id, user.id)
+        ),
     });
 
     if (!category) {

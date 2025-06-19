@@ -16,7 +16,7 @@ export function Pagination({
   );
 
   return (
-    <div className="flex items-center justify-center gap-6 mt-8 pt-2">
+    <div className="flex items-center justify-center gap-6 mt-5 pt-2">
       <button
         onClick={() => setPage(Math.max(page - 1, 0))}
         disabled={page === 0}
@@ -32,9 +32,7 @@ export function Pagination({
       </button>
 
       <span className="text-base font-semibold text-muted-foreground">
-        Page{" "}
-        {/* ✅ Fixed: Since page is 0-indexed, add 1 for user-friendly display */}
-        <span className="text-primary">{page + 1}</span>
+        Page <span className="text-primary">{page + 1}</span>
       </span>
 
       <button
