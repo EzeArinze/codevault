@@ -3,9 +3,23 @@
 import { generateText } from "ai";
 import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 import { ConstantSystemPrompt } from "@/utils/constants/prompt";
-import { GeneratedSnippet, GenerateSnippetRequest } from "@/utils/types";
 
 // const MODEL = process.env.OPEN_ROUTER_MODEL as string;
+
+export interface GenerateSnippetRequest {
+  prompt: string;
+  language?: string;
+  category?: string;
+}
+
+export interface GeneratedSnippet {
+  title: string;
+  description: string;
+  code: string;
+  language: string;
+  category: string;
+  command: string;
+}
 
 function validateEnv() {
   if (!process.env.OPENROUTER_API_KEY) {
