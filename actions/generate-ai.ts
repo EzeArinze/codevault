@@ -16,11 +16,10 @@ export async function generateCodeSnippet(
   try {
     const model = getGroqModel();
 
-    const { object } = await generateObject({
-      model,
-      schema: SnippetSchema,
-      system: ConstantSystemPrompt,
-      prompt: buildSnippetPrompt({ prompt, language, category }),
+    const { text } = await generateText({
+      model: openrouter(process.env.OPEN_ROUTER_MODEL as string),
+      system: systemPrompt,
+      prompt: userPrompt,
       temperature: 0.7,
     });
 
