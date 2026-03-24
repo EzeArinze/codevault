@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@ai-sdk/groq": "^3.0.31",
-    "@ai-sdk/react": "^1.2.12",
+    "@ai-sdk/react": "^3.0.140",
     "@better-auth/cli": "^1.2.8",
     "@neondatabase/serverless": "^1.0.2",
     "@radix-ui/react-alert-dialog": "^1.1.14",
