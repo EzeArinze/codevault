@@ -54,7 +54,7 @@ export async function generateCodeSnippet(
     const openrouter = createSafeOpenRouter();
 
     const { text } = await generateText({
-      model: openrouter("google/gemini-2.0-flash-exp:free"),
+      model: openrouter(process.env.OPEN_ROUTER_MODEL as string),
       system: systemPrompt,
       prompt: userPrompt,
       temperature: 0.7,
