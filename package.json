@@ -13,7 +13,6 @@
   "dependencies": {
     "@ai-sdk/groq": "^3.0.31",
     "@ai-sdk/react": "^3.0.140",
-    "@better-auth/cli": "^1.2.8",
     "@neondatabase/serverless": "^1.0.2",
     "@radix-ui/react-alert-dialog": "^1.1.14",
     "@radix-ui/react-avatar": "^1.1.10",
@@ -30,7 +29,7 @@
     "@tanstack/react-query": "^5.80.2",
     "ai": "^6.0.137",
     "axios": "^1.9.0",
-    "better-auth": "^1.2.8",
+    "better-auth": "^1.5.6",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
@@ -52,6 +51,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.27.4",
+    "@better-auth/cli": "^1.4.21",
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
