@@ -5,8 +5,8 @@ import { ConstantSystemPrompt } from "@/utils/constants/prompt";
 import { GenerateSnippetRequest } from "@/utils/types";
 import { getGroqModel } from "@/lib/ai/groq";
 import { SnippetSchema } from "@/utils/z-schema/schema";
-import { buildSnippetPrompt } from "@/lib/ai/prompts";
 import { normalizeSnippet } from "@/lib/ai/normalize";
+import { buildSnippetPrompt } from "@/lib/ai/prompts";
 
 export async function generateCodeSnippet(
   request: GenerateSnippetRequest
@@ -16,10 +16,11 @@ export async function generateCodeSnippet(
   try {
     const model = getGroqModel();
 
-    const { text } = await generateText({
-      model: openrouter(process.env.OPEN_ROUTER_MODEL as string),
-      system: systemPrompt,
-      prompt: userPrompt,
+    const { object } = await generateObject({
+      model,
+      schema: SnippetSchema,
+      system: ConstantSystemPrompt,
+      prompt: buildSnippetPrompt({ prompt, language, category }),
       temperature: 0.7,
     });
 

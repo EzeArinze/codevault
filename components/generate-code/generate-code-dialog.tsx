@@ -50,8 +50,6 @@ export default function AIGenerateDialog({
     }
 
     try {
-      setIsGenerating(true);
-
       const generatedCode = await generateCodeSnippet({
         prompt: prompt.trim(),
         language,

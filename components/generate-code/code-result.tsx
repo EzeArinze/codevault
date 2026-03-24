@@ -12,10 +12,9 @@ import { Copy, Save } from "lucide-react";
 import { ScrollArea } from "../ui/scroll-area";
 import { Input } from "../ui/input";
 import { toast } from "sonner";
-
-import { GeneratedSnippet } from "@/actions/generate-ai";
 import { Dispatch, SetStateAction } from "react";
 import { useAddSnippet } from "@/hooks/service/use-create-snippet";
+import { GeneratedSnippet } from "@/utils/types";
 
 interface CodeResultProps {
   onSetStep: Dispatch<SetStateAction<"input" | "result">>;
