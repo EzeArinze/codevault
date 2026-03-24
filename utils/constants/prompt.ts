@@ -14,7 +14,7 @@ Response format (JSON):
   "code": "The actual code snippet",
   "language": "programming language",
   "category": "appropriate category (hooks, utils, components, services, config, styles)",
-  "installCommand": "npx create-file command for this snippet"
+  "command": "npx add command for this snippet"
 }
 
 Categories:

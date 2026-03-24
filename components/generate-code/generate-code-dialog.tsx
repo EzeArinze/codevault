@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import {
   Dialog,
   DialogContent,
@@ -15,11 +15,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { Loader2, Sparkles } from "lucide-react";
 
-import { generateCodeSnippet, GeneratedSnippet } from "@/actions/generate-ai";
+import { generateCodeSnippet } from "@/actions/generate-ai";
 
 import { categoryOptions, languageOptions } from "@/utils/constants/code";
 import SelectComponent from "../select-component";
 import CodeResult from "./code-result";
+import { GeneratedSnippet } from "@/utils/types";
 
 interface AIGenerateDialogProps {
   open: boolean;
@@ -35,12 +36,13 @@ export default function AIGenerateDialog({
   const [prompt, setPrompt] = useState("");
   const [language, setLanguage] = useState("typescript");
   const [category, setCategory] = useState("utils");
-  const [isGenerating, setIsGenerating] = useState(false);
   const [generatedSnippet, setGeneratedSnippet] =
     useState<GeneratedSnippet | null>(null);
   const [step, setStep] = useState<"input" | "result">("input");
+  const [isGenerating, startTransition] = useTransition()
 
-  const handleGenerate = async () => {
+  const handleGenerateWithTransition = () => {
+    startTransition(async () => {
     if (!prompt.trim()) {
       toast.error("Error", {
         description: "Please enter a description of what you want to generate.",
@@ -49,8 +51,6 @@ export default function AIGenerateDialog({
     }
 
     try {
-      setIsGenerating(true);
-
       const generatedSnippet = await generateCodeSnippet({
         prompt: prompt.trim(),
         language,
@@ -70,9 +70,8 @@ export default function AIGenerateDialog({
           error instanceof Error ? error.message : "Please try again.",
         duration: 5000,
       });
-    } finally {
-      setIsGenerating(false);
     }
+  });
   };
 
   const handleClose = () => {
@@ -143,7 +142,7 @@ export default function AIGenerateDialog({
                 Cancel
               </Button>
               <Button
-                onClick={handleGenerate}
+                onClick={handleGenerateWithTransition}
                 disabled={isGenerating || !prompt.trim()}
               >
                 {isGenerating ? (
