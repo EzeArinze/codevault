@@ -15,7 +15,6 @@
     "@ai-sdk/react": "^1.2.12",
     "@better-auth/cli": "^1.2.8",
     "@neondatabase/serverless": "^1.0.2",
-    "@openrouter/ai-sdk-provider": "^0.7.2",
     "@radix-ui/react-alert-dialog": "^1.1.14",
     "@radix-ui/react-avatar": "^1.1.10",
     "@radix-ui/react-collapsible": "^1.1.11",
@@ -48,7 +47,7 @@
     "server-only": "^0.0.1",
     "sonner": "^2.0.3",
     "tailwind-merge": "^3.3.0",
-    "zod": "^3.25.76",
+    "zod": "^4.1.8",
     "zustand": "^5.0.5"
   },
   "devDependencies": {
