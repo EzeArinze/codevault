@@ -1,4 +1,4 @@
-import { z } from "zod/v4";
+import { z } from "zod";
 
 const noScript = (val: string) =>
   !/<script[\s\S]*?>[\s\S]*?<\/script>/gi.test(val);

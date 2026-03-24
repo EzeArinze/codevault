@@ -48,7 +48,6 @@ function CodeResult({
           console.error("Request failed:", error.message);
         },
       });
-      console.log(generatedSnippet);
     }
   };
 
@@ -102,6 +101,7 @@ function CodeResult({
                 <Input
                   value={generatedSnippet.command}
                   className="font-mono text-sm"
+                  readOnly
                 />
                 <Button
                   variant="ghost"

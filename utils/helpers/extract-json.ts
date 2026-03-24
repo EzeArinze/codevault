@@ -1,14 +1,11 @@
-import { GeneratedSnippet } from "@/actions/generate-ai";
+import { GeneratedSnippet } from "@/utils/types";
 
-// Robust JSON extraction function
 export function extractJSON(text: string): GeneratedSnippet {
-  // Remove various code block formats
   let cleaned = text
     .replace(/```(?:json|javascript|typescript)?\n?/g, "")
     .replace(/\n?```/g, "")
     .trim();
 
-  // Find JSON object boundaries
   const start = cleaned.indexOf("{");
   const end = cleaned.lastIndexOf("}") + 1;
 
