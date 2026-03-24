@@ -7,7 +7,7 @@ import { HeroCodeSnippet } from "@/utils/constants/code";
 function HeroSection() {
   return (
     <section className="w-full min-h-dvh py-12 md:py-24 lg:py-32 bg-gradient-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900">
-      <div className="container px-4 md:px-6 w-[89%] md:w-[80%] mx-auto">
+      <div className="container w-full px-4 md:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="flex flex-col items-center space-y-8 text-center lg:text-left lg:flex-row lg:space-y-0 lg:space-x-12">
           <div className="flex-1 space-y-6">
             <div className="space-y-4">
