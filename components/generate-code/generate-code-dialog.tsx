@@ -30,7 +30,6 @@ interface AIGenerateDialogProps {
 export default function AIGenerateDialog({
   open,
   onOpenChange,
-  // onSnippetGenerated,
 }: AIGenerateDialogProps) {
   const [prompt, setPrompt] = useState("");
   const [language, setLanguage] = useState("typescript");
@@ -51,12 +50,12 @@ export default function AIGenerateDialog({
     try {
       setIsGenerating(true);
 
-      const generatedSnippet = await generateCodeSnippet({
+      const generatedCode = await generateCodeSnippet({
         prompt: prompt.trim(),
         language,
         category,
       });
-      setGeneratedSnippet(generatedSnippet);
+      setGeneratedSnippet(generatedCode);
       // setGeneratedSnippet(generated);
       setStep("result");
 
